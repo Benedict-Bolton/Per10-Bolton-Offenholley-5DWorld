@@ -1,0 +1,10 @@
+PerX-last1-last2-nameofproject
+Description: brieg Description
+initialize with a readme
+Public
+
+Settings for respository: Collaborate, Collaborators, add your teammate(s)
+
+USE MEANINGFUL COMMENTS FOR COMMITS!!!
+
+fork the project for possibly code breaking changes
