@@ -1,8 +1,14 @@
 float x,y,z;
 
+String userInput;
+String[] savedInput;
+int countInp;
+
+
 void setup() {
   
-  
+    savedInput = new String[4];
+    countInp = 0;
     /*size(640,360,P3D);
     background(0);
     lights();
@@ -51,5 +57,24 @@ void setup() {
 
 void draw() {
 
+}
+
+void keyPressed() {
+  if (key == ENTER || key == RETURN) {
+    savedInput[countInp] = userInput;
+    userInput = "";
+    if (countInp < savedInput.length - 1) {
+      countInp++;
+    }
+    else {
+      countInp = 0;
+    }
+  }
+  else if (key == BACKSPACE) {
+    userInput = userInput.substring(0, length-1);
+  }
+  else {
+    userInput +=key;
+  }
 }
 
