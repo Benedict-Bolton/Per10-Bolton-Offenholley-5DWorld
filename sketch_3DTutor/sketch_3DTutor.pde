@@ -7,6 +7,7 @@ int countInp;
 
 void setup() {
   
+    userInput = "";
     savedInput = new String[4];
     countInp = 0;
     /*size(640,360,P3D);
@@ -36,23 +37,24 @@ void setup() {
     rotateZ(-PI/6);
     noFill();
     
-    beginShape();
-    vertex(-100, -100, -100);
-    vertex( 100, -100, -100);
-    vertex(   0,    0,  100);
+    Prism testy = new Prism();
+    testy.add(-100, -100, -100);
+    testy.add( 100, -100, -100);
+    testy.add(   0,    0,  100);
     
-    vertex( 100, -100, -100);
-    vertex( 100,  100, -100);
-    vertex(   0,    0,  100);
+    testy.add( 100, -100, -100);
+    testy.add( 100,  100, -100);
+    testy.add(   0,    0,  100);
     
-    vertex( 100, 100, -100);
-    vertex(-100, 100, -100);
-    vertex(   0,   0,  100);
+    testy.add( 100, 100, -100);
+    testy.add(-100, 100, -100);
+    testy.add(   0,   0,  100);
     
-    vertex(-100,  100, -100);
-    vertex(-100, -100, -100);
-    vertex(   0,    0,  100);
-    endShape();
+    testy.add(-100,  100, -100);
+    testy.add(-100, -100, -100);
+    testy.add(   0,    0,  100);
+    //testy.add(-100, -100, -100);
+    testy.makePrism();
 }
 
 void draw() {
@@ -71,7 +73,7 @@ void keyPressed() {
     }
   }
   else if (key == BACKSPACE) {
-    userInput = userInput.substring(0, length-1);
+    userInput = userInput.substring(0, userInput.length() - 1);
   }
   else {
     userInput +=key;

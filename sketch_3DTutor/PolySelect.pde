@@ -1,6 +1,6 @@
 class PolySelect {
   
-  String[] shapeHeap; //not sure what tree structure to use....
+ /* String[] shapeHeap; //not sure what tree structure to use....
   
   Prism readPoly (String input, String[] preComs) {
     if (preComs[0] != null) {
@@ -27,5 +27,5 @@ class PolySelect {
   //will have one static method that determines what prism class to call 
   //and use for the user's choice of generated polygons
   //thus time was spent reading...less coding...twas much sad...
-  
+ */ 
 }

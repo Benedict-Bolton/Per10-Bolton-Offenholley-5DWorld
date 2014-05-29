@@ -3,7 +3,7 @@ class Prism {
   Vertex _end;
   int numPoints;
   
-  Prism (Vertex start) {
+  Prism () {
     numPoints = 0;
     _start = new Vertex();
     _end = new Vertex();
@@ -14,12 +14,15 @@ class Prism {
   }
   
   void makePrism () {
-    Vertex hold = _start;
+    Vertex hold = _start.getNext();
     beginShape();
-    while (hold.getNext() != null) {
+    while (hold != null) {
        vertex(hold.getX(), hold.getY(), hold.getZ());
+       println (hold.getX() + ", " + hold.getY() + ", " + hold.getZ());
        hold = hold.getNext();
     }
+    /*hold = _start.getNext();
+    vertex (hold.getX(), hold.getY(), hold.getZ());*/
     endShape();
   }
   
@@ -35,7 +38,11 @@ class Prism {
   
   void add (float x, float y, float z, int position) {
     Vertex newOne = new Vertex (x, y, z);
-    if (position != numPoints) {
+    if (numPoints == 0) {
+       _start.setNext(newOne);
+       _end = newOne;
+    }
+    else if (position != numPoints) {
         newOne.setNext(getVert(position));
     }
     else {
@@ -47,7 +54,13 @@ class Prism {
   
   void add (float x, float y, float z) {
     Vertex newOne = new Vertex (x, y, z);
-    _end.setNext(newOne);
+    if (numPoints == 0) {
+      _start.setNext(newOne);
+    }
+    else {
+      _end.setNext(newOne);
+    }
+    _end = newOne;
     numPoints++;
   }
   
