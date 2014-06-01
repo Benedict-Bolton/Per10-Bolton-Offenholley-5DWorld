@@ -1,3 +1,5 @@
+import g4p_controls.*;
+
 float x,y,z;
 
 String userInput;
@@ -34,7 +36,7 @@ void setup() {
     translate(width/2, height/2, 0);
     stroke(255);
     rotateX(PI/2);
-    rotateZ(-PI/6);
+    //rotateZ(-PI/6);
     noFill();
     
     Prism testy = new Prism();
@@ -52,9 +54,16 @@ void setup() {
     
     testy.add(-100,  100, -100);
     testy.add(-100, -100, -100);
-    testy.add(   0,    0,  100);
+    testy.add(  0, 0, -100); 
+    testy.add(-100, -100, -100);
+    testy.add(  100, 0, -100);
+    testy.add(-100, -100, -100);
+    testy.add(  0, 100, -100);
+    testy.add(-100, -100, -100);
+    testy.add(  0, 0, -100);
     //testy.add(-100, -100, -100);
     testy.makePrism();
+    
 }
 
 void draw() {

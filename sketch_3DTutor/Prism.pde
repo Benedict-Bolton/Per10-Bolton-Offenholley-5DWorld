@@ -2,8 +2,40 @@ class Prism {
   Vertex _start;
   Vertex _end;
   int numPoints;
+  int[] fill;
+  int[] rotations;
+  int[] stroke;
   
   Prism () {
+    fill = new int[3];
+    fill[0] = -1;
+    rotations = new int[3];
+    for (int x = 0; x < rotations.length; x++) {
+        rotations[x] = 0;
+    } 
+    stroke = new int[3];
+    for (int x = 0; x < stroke.length; x++) {
+        stroke[x] = 255;
+    }
+    _start = new Vertex();
+    _end = new Vertex(); 
+  }
+    
+  
+  
+  Prism (int fill1, int fill2, int fill3, int roteX, int roteY, int roteZ, int stroke1, int stroke2, int stroke3) {
+    fill = new int[3];
+    fill[0] = fill1;
+    fill[1] = fill2;
+    fill[2] = fill3;
+    rotations = new int[3];
+    rotations[0] = roteX;
+    rotations[1] = roteY;
+    rotations[2] = roteZ;
+    stroke = new int[3];
+    fill[0] = fill1;
+    fill[1] = fill2;
+    fill[2] = fill3;
     numPoints = 0;
     _start = new Vertex();
     _end = new Vertex();
@@ -14,6 +46,9 @@ class Prism {
   }
   
   void makePrism () {
+    if (fill[0] = -1) {
+      noFill();
+    }
     Vertex hold = _start.getNext();
     beginShape();
     while (hold != null) {
