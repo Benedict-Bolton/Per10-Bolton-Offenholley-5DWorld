@@ -43,6 +43,7 @@ void setup() {
     incep = 0;
     size(640, 360, P3D);
     background(incep);
+    frame.setLocation(500, 100);
     
     cp5 = new ControlP5(this);
     
@@ -102,7 +103,7 @@ ControlFrame addControlFrame(String name, int wid, int hei) {
   bar.init();
   foo.setTitle(name); 
   foo.setSize(bar._width, bar._height);
-  foo.setLocation(50, 200);
+  foo.setLocation(100, 100);
   foo.setResizable(false);
   foo.setVisible(true);
   return bar;
@@ -113,6 +114,7 @@ public class ControlFrame extends PApplet {
   
   int _width;
   int _height;
+  DropdownList shaSel;//shape selector
   
   ControlP5 cp5;
   
@@ -123,7 +125,8 @@ public class ControlFrame extends PApplet {
     size(_width, _height);
     frameRate(30);
     cp5 = new ControlP5(this);
-    //cp5.addDropdownList("Polyhedra").setPosition(100,100);
+    shaSel = cp5.addDropdownList("Polyhedra").setPosition(10,200);
+    dropDownDesign(shaSel); //add all necessary details to shaSel
     cp5.addSlider("SNAFU").plugTo(parent,"incep").setRange(0,255).setPosition(10,30);
   }
   
@@ -146,5 +149,32 @@ public class ControlFrame extends PApplet {
     //just writting comments not documenting so ehh i can understand them
   }    
   
+  
+  //pulls together all the messy method calls into one nice method
+  void dropDownDesign(DropdownList ddl) {
+    ddl.setItemHeight(25);
+    ddl.setBarHeight(20);
+    ddl.setWidth(350);
+    ddl.captionLabel().set("Select the Polyhedra you wish to create");
+    ddl.captionLabel().style().marginTop = 3; //positioning of top label
+    ddl.captionLabel().style().marginLeft = 3; //positioning of top label
+    ddl.valueLabel().style().marginTop = 3; //same as above just for the items in the ddl
+    /* Ref for numbers, they are indices in 2D array holding what to call.
+    First digit is the row, which corrsponds to the type of shape; i.e. prism, pyrimid, etc.
+      --this number will be extracted by %10-ing the number so single digits pose no problem
+    Second digit is the colomn, it is sorted according to number of sides of defining face; i.e. 4 == a rect
+    The First two colomns will be empty and should never be called */  
+    ddl.addItem("Prism, Rect.", 4); 
+    ddl.addItem("Prism, Tri.", 3);
+    ddl.addItem("Prism, Pent.", 5);
+    ddl.setColorBackground(color(100));
+    ddl.setColorActive(color(2, 255, 181));
+  }
+  
 }
+  
+  
+  
+  
+  
   
