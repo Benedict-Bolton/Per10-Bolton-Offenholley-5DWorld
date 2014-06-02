@@ -8,7 +8,7 @@ int countInp;
 
 
 void setup() {
-  
+    
     userInput = "";
     savedInput = new String[4];
     countInp = 0;
@@ -34,12 +34,13 @@ void setup() {
     background(0);
     
     translate(width/2, height/2, 0);
-    stroke(255);
-    rotateX(PI/2);
+    //stroke(255);
+    //rotateX(PI/2);
     //rotateZ(-PI/6);
-    noFill();
+    //noFill();
+    //fill(204, 102, 0);
     
-    Prism testy = new Prism();
+    Prism testy = new Prism (204, 102, 0, PI/2, 0, 0, 255, 255, 255);
     testy.add(-100, -100, -100);
     testy.add( 100, -100, -100);
     testy.add(   0,    0,  100);
@@ -54,16 +55,22 @@ void setup() {
     
     testy.add(-100,  100, -100);
     testy.add(-100, -100, -100);
-    testy.add(  0, 0, -100); 
-    testy.add(-100, -100, -100);
-    testy.add(  100, 0, -100);
-    testy.add(-100, -100, -100);
-    testy.add(  0, 100, -100);
-    testy.add(-100, -100, -100);
-    testy.add(  0, 0, -100);
+    testy.add(   0,    0,  100); 
+    //testy.add(-100, -100, -100);        //ooh look at all the pretty test lines!
+    //testy.add(  100, 0, -100);
+    //testy.add(-100, -100, -100);
+    //testy.add(  0, 100, -100);
+    //testy.add(-100, -100, -100);
+    //testy.add(  0, 0, -100);
     //testy.add(-100, -100, -100);
     testy.makePrism();
-    
+    //rect(0, 0, 100, 100);
+    pushMatrix();
+    rotateZ(PI/3);
+    rotateX(PI/6);
+    box(50);
+    popMatrix(); //so the fill is not cooperating at the moment for filling custom shapes....may Mr.K please have an answer...
+    GWindow shaInp = new GWindow(this, "shapeChoice", 0, 0, 100, 100, false, "P2D");
 }
 
 void draw() {
