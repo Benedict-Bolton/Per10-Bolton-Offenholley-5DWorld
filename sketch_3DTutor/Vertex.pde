@@ -1,4 +1,4 @@
-class Vertex {
+public class Vertex {
   float xpos;
   float ypos;
   float zpos;

@@ -1,4 +1,4 @@
-class Prism {
+public class Prism {
   Vertex _start;
   Vertex _end;
   int numPoints;
