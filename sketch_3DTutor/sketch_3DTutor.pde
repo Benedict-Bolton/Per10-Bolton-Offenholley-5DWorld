@@ -10,6 +10,8 @@ ControlFrame cf;
 
 float x,y,z;
 
+//int tZ;
+
 String userInput;
 String[] savedInput;
 
@@ -25,7 +27,7 @@ ArrayList<Prism> shapes;
 void setup() {
     dimensions = new int[3];
     shapes = new ArrayList<Prism>();
-    
+    //tZ = -100;
     /*size(640,360,P3D);
     background(0);
     lights();
@@ -53,7 +55,7 @@ void setup() {
     
     cf = addControlFrame("select", 300, 400);
     
-    translate(width/2, height/2, -100);
+    translate(width/2, height/2, tZ);
     //stroke(255);
     //rotateX(PI/2);
     //rotateZ(-PI/6);
@@ -95,9 +97,11 @@ void setup() {
 }
 
 void draw() {
-  translate(width/2, height/2, -100);
+  translate(width/2, height/2, tZ);
   background(incep);
   shapes.get(0).makePrism();
+  //tZ++;
+  //println(shapes.get(0).getZOne());
 }
 
 ControlFrame addControlFrame(String name, int wid, int hei) {

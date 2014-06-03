@@ -41,6 +41,10 @@ public class Prism {
     _end = new Vertex();
   }
   
+  float getZOne() {
+    return _start.getNext().getZ();
+  }
+  
   int getNumPoints () {
     return numPoints;
   }
@@ -64,7 +68,7 @@ public class Prism {
          fill( fill[0], fill[1], fill[2]);
        }
        vertex(hold.getX(), hold.getY(), hold.getZ());
-       println (hold.getX() + ", " + hold.getY() + ", " + hold.getZ());
+       //println (hold.getX() + ", " + hold.getY() + ", " + hold.getZ());
        hold = hold.getNext();
     }
     endShape(CLOSE);
