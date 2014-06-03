@@ -57,7 +57,7 @@ public class Prism {
     rotateZ(rotations[2]);
     stroke(stroke[0], stroke[1], stroke[2]);
     Vertex hold = _start.getNext();
-    beginShape();
+    beginShape(TRIANGLES);
     int count = 0;
     while (hold != null) {
        if ((count%3) == 0) {

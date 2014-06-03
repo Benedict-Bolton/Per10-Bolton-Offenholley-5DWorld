@@ -2,7 +2,7 @@ import java.awt.Frame;
 import java.awt.BorderLayout;
 import controlP5.*;
 
-import g4p_controls.*;
+
 
 private ControlP5 cp5;
 
@@ -53,12 +53,12 @@ void setup() {
     
     cf = addControlFrame("select", 300, 400);
     
-    translate(width/2, height/2, 0);
+    translate(width/2, height/2, -100);
     //stroke(255);
     //rotateX(PI/2);
     //rotateZ(-PI/6);
     //noFill();
-    //fill(204, 102, 0);
+    fill(204, 102, 0);
     
     Prism testy = new Prism (204, 102, 0, PI/2, 0, 0, 255, 255, 255);
     testy.add(-100, -100, -100);
@@ -95,7 +95,7 @@ void setup() {
 }
 
 void draw() {
-  translate(width/2, height/2, 0);
+  translate(width/2, height/2, -100);
   background(incep);
   shapes.get(0).makePrism();
 }
