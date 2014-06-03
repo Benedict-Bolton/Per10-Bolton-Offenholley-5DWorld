@@ -12,6 +12,9 @@ float x,y,z;
 
 String userInput;
 String[] savedInput;
+
+int[] dimensions;
+
 int countInp;
 
 int incep;
@@ -20,6 +23,7 @@ ArrayList<Prism> shapes;
 
 
 void setup() {
+    dimensions = new int[3];
     shapes = new ArrayList<Prism>();
     
     /*size(640,360,P3D);
@@ -47,7 +51,7 @@ void setup() {
     
     cp5 = new ControlP5(this);
     
-    cf = addControlFrame("select", 200, 400);
+    cf = addControlFrame("select", 300, 400);
     
     translate(width/2, height/2, 0);
     //stroke(255);
@@ -122,15 +126,17 @@ public class ControlFrame extends PApplet {
   
   
   public void setup() {
+    background(100);
     size(_width, _height);
     frameRate(30);
     cp5 = new ControlP5(this);
     shaSel = cp5.addDropdownList("Polyhedra").setPosition(10,200);
     dropDownDesign(shaSel); //add all necessary details to shaSel
-    cp5.addSlider("SNAFU").plugTo(parent,"incep").setRange(0,255).setPosition(10,30);
+    cp5.addSlider("SNAFU").plugTo(parent,"incep").setRange(0,255).setPosition(10,30); //need to set up one of these for text fields
   }
   
   public void draw() {
+    background(200);
   }
   
   private ControlFrame() {
@@ -154,9 +160,9 @@ public class ControlFrame extends PApplet {
   void dropDownDesign(DropdownList ddl) {
     ddl.setItemHeight(25);
     ddl.setBarHeight(20);
-    ddl.setWidth(350);
+    ddl.setWidth(200);
     ddl.captionLabel().set("Select the Polyhedra you wish to create");
-    ddl.captionLabel().style().marginTop = 3; //positioning of top label
+    ddl.captionLabel().style().marginTop = 4; //positioning of top label
     ddl.captionLabel().style().marginLeft = 3; //positioning of top label
     ddl.valueLabel().style().marginTop = 3; //same as above just for the items in the ddl
     /* Ref for numbers, they are indices in 2D array holding what to call.
@@ -169,6 +175,15 @@ public class ControlFrame extends PApplet {
     ddl.addItem("Prism, Pent.", 5);
     ddl.setColorBackground(color(100));
     ddl.setColorActive(color(2, 255, 181));
+  }
+  
+  void controlEvent(ControlEvent event) {
+    
+    if (event.isGroup()) {
+      println("Num sides wanted: " + event.getGroup().getValue());
+    }
+    else if (event.isController()) {
+    }
   }
   
 }
