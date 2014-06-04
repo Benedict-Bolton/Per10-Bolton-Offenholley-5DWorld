@@ -12,10 +12,12 @@ float x,y,z;
 
 //int tZ;
 
+int base, heig, leng;
+
 String userInput;
 String[] savedInput;
 
-int[] dimensions;
+public int[] ddlPick = new int[2]; //ddlPick[0] == 1 || 0 for make shape or not, ddlPick[1]
 
 int countInp;
 
@@ -25,7 +27,6 @@ ArrayList<Prism> shapes;
 
 
 void setup() {
-    dimensions = new int[3];
     shapes = new ArrayList<Prism>();
     //tZ = -100;
     /*size(640,360,P3D);
@@ -55,7 +56,7 @@ void setup() {
     
     cf = addControlFrame("select", 300, 400);
     
-    translate(width/2, height/2, tZ);
+    translate(width/2, height/2, 0);
     //stroke(255);
     //rotateX(PI/2);
     //rotateZ(-PI/6);
@@ -97,7 +98,7 @@ void setup() {
 }
 
 void draw() {
-  translate(width/2, height/2, tZ);
+  translate(width/2, height/2, 0);
   background(incep);
   shapes.get(0).makePrism();
   //tZ++;
@@ -124,6 +125,8 @@ public class ControlFrame extends PApplet {
   int _height;
   DropdownList shaSel;//shape selector
   
+  boolean makeShapeTime = false; 
+  
   ControlP5 cp5;
   
   Object parent;
@@ -134,9 +137,12 @@ public class ControlFrame extends PApplet {
     size(_width, _height);
     frameRate(30);
     cp5 = new ControlP5(this);
-    shaSel = cp5.addDropdownList("Polyhedra").setPosition(10,200);
+    shaSel = cp5.addDropdownList("Polyhedra To Make:").setPosition(10,200);
     dropDownDesign(shaSel); //add all necessary details to shaSel
     cp5.addSlider("SNAFU").plugTo(parent,"incep").setRange(0,255).setPosition(10,30); //need to set up one of these for text fields
+    cp5.addSlider("Base Radiues").plugTo(parent,"heig").setRange(0,150).setPosition(10,60);
+    cp5.addSlider("Base Side Length").plugTo(parent,"base").setRange(0,150).setPosition(10,90);
+    cp5.addSlider("Length of Polyhedra").plugTo(parent,"leng").setRange(0,200).setPosition(10,120);
   }
   
   public void draw() {
@@ -165,7 +171,7 @@ public class ControlFrame extends PApplet {
     ddl.setItemHeight(25);
     ddl.setBarHeight(20);
     ddl.setWidth(200);
-    ddl.captionLabel().set("Select the Polyhedra you wish to create");
+    ddl.captionLabel().set("Select a Polyhedra:");
     ddl.captionLabel().style().marginTop = 4; //positioning of top label
     ddl.captionLabel().style().marginLeft = 3; //positioning of top label
     ddl.valueLabel().style().marginTop = 3; //same as above just for the items in the ddl
@@ -174,8 +180,8 @@ public class ControlFrame extends PApplet {
       --this number will be extracted by %10-ing the number so single digits pose no problem
     Second digit is the colomn, it is sorted according to number of sides of defining face; i.e. 4 == a rect
     The First two colomns will be empty and should never be called */  
-    ddl.addItem("Prism, Rect.", 4); 
     ddl.addItem("Prism, Tri.", 3);
+    ddl.addItem("Prism, Rect.", 4); 
     ddl.addItem("Prism, Pent.", 5);
     ddl.setColorBackground(color(100));
     ddl.setColorActive(color(2, 255, 181));
@@ -184,7 +190,13 @@ public class ControlFrame extends PApplet {
   void controlEvent(ControlEvent event) {
     
     if (event.isGroup()) {
-      println("Num sides wanted: " + event.getGroup().getValue());
+      if (event.getGroup().getName().equals("Select a Polyhedra:")) {
+        println("Num sides wanted: " + event.getGroup().getValue());
+        parent.ddlPick[0] = 1;
+        println(parent.ddlPick[0] + ""); 
+        parent.ddlPick[1] = event.getGroup().getValue();
+        println(parent.ddlPick[1] + "");
+      }  
     }
     else if (event.isController()) {
     }
