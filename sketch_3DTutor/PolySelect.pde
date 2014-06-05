@@ -1,4 +1,4 @@
-class PolySelect {
+public class PolySelect {
   
  /* String[] shapeHeap; //not sure what tree structure to use....
   

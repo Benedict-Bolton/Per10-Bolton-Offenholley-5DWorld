@@ -1,15 +1,15 @@
-class Prism {
+public class Prism {
   Vertex _start;
   Vertex _end;
   int numPoints;
   int[] fill;
-  int[] rotations;
+  float[] rotations;
   int[] stroke;
   
   Prism () {
     fill = new int[3];
     fill[0] = -1;
-    rotations = new int[3];
+    rotations = new float[3];
     for (int x = 0; x < rotations.length; x++) {
         rotations[x] = 0;
     } 
@@ -23,22 +23,26 @@ class Prism {
     
   
   
-  Prism (int fill1, int fill2, int fill3, int roteX, int roteY, int roteZ, int stroke1, int stroke2, int stroke3) {
+  Prism (int fill1, int fill2, int fill3, float roteX, float roteY, float roteZ, int stroke1, int stroke2, int stroke3) {
     fill = new int[3];
     fill[0] = fill1;
     fill[1] = fill2;
     fill[2] = fill3;
-    rotations = new int[3];
+    rotations = new float[3];
     rotations[0] = roteX;
     rotations[1] = roteY;
     rotations[2] = roteZ;
     stroke = new int[3];
-    fill[0] = fill1;
-    fill[1] = fill2;
-    fill[2] = fill3;
+    stroke[0] = stroke1;
+    stroke[1] = stroke2;
+    stroke[2] = stroke3;
     numPoints = 0;
     _start = new Vertex();
     _end = new Vertex();
+  }
+  
+  float getZOne() {
+    return _start.getNext().getZ();
   }
   
   int getNumPoints () {
@@ -46,19 +50,28 @@ class Prism {
   }
   
   void makePrism () {
-    if (fill[0] = -1) {
-      noFill();
+    if (fill[0] < 0) {
+      //noFill();
     }
+    else {
+      //fill( fill[0], fill[1], fill[2]);
+    }
+    rotateX(rotations[0]);
+    rotateY(rotations[1]);
+    rotateZ(rotations[2]);
+    stroke(stroke[0], stroke[1], stroke[2]);
     Vertex hold = _start.getNext();
-    beginShape();
+    beginShape(TRIANGLES);
+    int count = 0;
     while (hold != null) {
+       if ((count%3) == 0) {
+         fill( fill[0], fill[1], fill[2]);
+       }
        vertex(hold.getX(), hold.getY(), hold.getZ());
-       println (hold.getX() + ", " + hold.getY() + ", " + hold.getZ());
+       //println (hold.getX() + ", " + hold.getY() + ", " + hold.getZ());
        hold = hold.getNext();
     }
-    /*hold = _start.getNext();
-    vertex (hold.getX(), hold.getY(), hold.getZ());*/
-    endShape();
+    endShape(CLOSE);
   }
   
   public Vertex getVert (int position) {

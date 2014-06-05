@@ -8,3 +8,20 @@ Settings for respository: Collaborate, Collaborators, add your teammate(s)
 USE MEANINGFUL COMMENTS FOR COMMITS!!!
 
 fork the project for possibly code breaking changes
+
+
+Stages for Project:
+       
+       1- Get an empty room in 3D
+       1.5- Quit button
+       2- Move through the room
+       3- Place Cubes in the Room, (+ have cubes stop movement
+       4- Connecting Rooms/ Hallways
+       5- Doorways
+       5.5- Movement of shapes
+       6- More Diverse Shape placement (LAVA PITS!!!)
+       6.7- Changing viewpoint (runing, jumping, ducking, etc.)
+       7- Start Game Development???
+       	  
+	  
+	  
