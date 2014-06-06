@@ -26,7 +26,7 @@ int incep;
 ArrayList<Prism> shapes;
 
 
-static final Polyhedra[][] PSHAPECALLS = new Polyhedra;
+static final Polyhedra[][] PSHAPECALLS = new Polyhedra[2][4];
 
 void setup() {
     shapes = new ArrayList<Prism>();
@@ -65,8 +65,8 @@ void setup() {
     //noFill();
     fill(204, 102, 0);
     
-    Prism testy = new Prism (204, 102, 0, PI/2, 0, 0, 255, 255, 255);
-    testy.add(-100, -100, -100);
+    Prism testy = new Prism ( 4, 50, 100, 204, 102, 0, 255, 255, 255);
+    /*testy.add(-100, -100, -100);
     testy.add( 100, -100, -100);
     testy.add(   0,    0,  100);
     
@@ -80,7 +80,7 @@ void setup() {
     
     testy.add(-100,  100, -100);
     testy.add(-100, -100, -100);
-    testy.add(   0,    0,  100); 
+    testy.add(   0,    0,  100);*/ 
     //testy.add(-100, -100, -100);        //ooh look at all the pretty test lines!
     //testy.add(  100, 0, -100);
     //testy.add(-100, -100, -100);

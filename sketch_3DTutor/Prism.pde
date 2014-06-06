@@ -36,23 +36,19 @@ public class Prism implements Polyhedra{
     
   
   
-  Prism (int baseSides, int cirCR, int length ,int fill1, int fill2, int fill3, float roteX, float roteY, float roteZ, int stroke1, int stroke2, int stroke3) {
+  Prism (int baseSides, int cirCR, int lengOP ,int fillR, int fillG, int fillB, int strokeR, int strokeG, int strokeB) {
     bSN = baseSides;
     cirCumRad = cirCR;
-    leng = length;
-    name = "Custom Prism"
+    leng = lengOP;
+    name = "Custom Prism";
     fill = new int[3];
-    fill[0] = fill1;
-    fill[1] = fill2;
-    fill[2] = fill3;
-    rotations = new float[3];
-    rotations[0] = roteX;
-    rotations[1] = roteY;
-    rotations[2] = roteZ;
+    fill[0] = fillR;
+    fill[1] = fillG;
+    fill[2] = fillB;
     stroke = new int[3];
-    stroke[0] = stroke1;
-    stroke[1] = stroke2;
-    stroke[2] = stroke3;
+    stroke[0] = strokeR;
+    stroke[1] = strokeG;
+    stroke[2] = strokeB;
     numPoints = 0;
     _start = new Vertex();
     _end = new Vertex();
@@ -66,29 +62,29 @@ public class Prism implements Polyhedra{
     return numPoints;
   }
   
-  void makeShape () {
+  void makeShape (rotX, rotY, rotZ, tranX, tranY, tranZ) {
+    pushMatrix();
+    translate(tranX, tranY, tranZ);
+    rotateX(rotX);
+    rotateY(rotY);
+    rotateZ(rotZ);
     if (fill[0] < 0) {
-      //noFill();
+      noFill();
     }
     else {
-      //fill( fill[0], fill[1], fill[2]);
+      fill( fill[0], fill[1], fill[2]);
     }
-    rotateX(rotations[0]);
-    rotateY(rotations[1]);
-    rotateZ(rotations[2]);
     stroke(stroke[0], stroke[1], stroke[2]);
     Vertex hold = _start.getNext();
-    beginShape();
+    beginShape(QUAD_STRIP);
     int count = 0;
     while (hold != null) {
-       if ((count%3) == 0) {
-         fill( fill[0], fill[1], fill[2]);
-       }
        vertex(hold.getX(), hold.getY(), hold.getZ());
        //println (hold.getX() + ", " + hold.getY() + ", " + hold.getZ());
        hold = hold.getNext();
     }
     endShape(CLOSE);
+    popMatrix();
   }
   
   public Vertex getVert (int position) {
@@ -145,18 +141,12 @@ public class Prism implements Polyhedra{
   } 
    
   void formPoly() {
-    pushMatrix;
-    translate(0,0,0);
-    rotateX(0);
-    rotateY(0);
-    rotateZ(0);
     for ( float theta = 0; theta <= 2*PI; theta += (2*PI/bSN) ) {
       this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), 0);
     }
     for ( float theta = 0; theta <= 2*PI; theta += (2*PI/bSN) ) {
-      this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), (-1*leng) ;
+      this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), (-1*leng) );
     }
-    popMatrix;
   }
       
    
