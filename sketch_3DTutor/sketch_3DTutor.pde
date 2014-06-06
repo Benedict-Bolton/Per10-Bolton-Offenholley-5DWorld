@@ -26,6 +26,8 @@ int incep;
 ArrayList<Prism> shapes;
 
 
+static final Polyhedra[][] PSHAPECALLS = new Polyhedra;
+
 void setup() {
     shapes = new ArrayList<Prism>();
     //tZ = -100;
@@ -86,7 +88,7 @@ void setup() {
     //testy.add(-100, -100, -100);
     //testy.add(  0, 0, -100);
     //testy.add(-100, -100, -100);
-    testy.makePrism();
+    testy.makeShape();
     shapes.add(testy);
     //rect(0, 0, 100, 100);
     pushMatrix();
@@ -100,7 +102,7 @@ void setup() {
 void draw() {
   translate(width/2, height/2, 0);
   background(incep);
-  shapes.get(0).makePrism();
+  shapes.get(0).makeShape();
   //tZ++;
   //println(shapes.get(0).getZOne());
 }
@@ -190,12 +192,12 @@ public class ControlFrame extends PApplet {
   void controlEvent(ControlEvent event) {
     
     if (event.isGroup()) {
-      if (event.getGroup().getName().equals("Select a Polyhedra:")) {
+      if (event.getGroup().getName().equals("Polyhedra To Make:")) {
         println("Num sides wanted: " + event.getGroup().getValue());
-        parent.ddlPick[0] = 1;
-        println(parent.ddlPick[0] + ""); 
-        parent.ddlPick[1] = event.getGroup().getValue();
-        println(parent.ddlPick[1] + "");
+        ddlPick[0] = 1;
+        println(ddlPick[0] + ""); 
+        ddlPick[1] = (int) event.getGroup().getValue();
+        println(ddlPick[1] + "");
       }  
     }
     else if (event.isController()) {

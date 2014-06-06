@@ -1,12 +1,20 @@
-public class Prism {
+public class Prism implements Polyhedra{
   Vertex _start;
   Vertex _end;
   int numPoints;
   int[] fill;
   float[] rotations;
   int[] stroke;
+  String name;
+  
+  int bSN;
+  
+  String getName () {
+    return name;
+  }
   
   Prism () {
+    name = "Custom Prism";
     fill = new int[3];
     fill[0] = -1;
     rotations = new float[3];
@@ -24,6 +32,7 @@ public class Prism {
   
   
   Prism (int fill1, int fill2, int fill3, float roteX, float roteY, float roteZ, int stroke1, int stroke2, int stroke3) {
+    name = "Custom Prism"
     fill = new int[3];
     fill[0] = fill1;
     fill[1] = fill2;
@@ -49,7 +58,7 @@ public class Prism {
     return numPoints;
   }
   
-  void makePrism () {
+  void makeShape () {
     if (fill[0] < 0) {
       //noFill();
     }
@@ -61,7 +70,7 @@ public class Prism {
     rotateZ(rotations[2]);
     stroke(stroke[0], stroke[1], stroke[2]);
     Vertex hold = _start.getNext();
-    beginShape(TRIANGLES);
+    beginShape();
     int count = 0;
     while (hold != null) {
        if ((count%3) == 0) {
@@ -126,5 +135,7 @@ public class Prism {
     getVert(position).setY(y);
     getVert(position).setZ(z);
   } 
+   
+  abstract void formPoly(); 
    
 }
