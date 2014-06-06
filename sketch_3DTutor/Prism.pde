@@ -8,12 +8,17 @@ public class Prism implements Polyhedra{
   String name;
   
   int bSN;
+  int cirCumRad;
+  int leng;
   
   String getName () {
     return name;
   }
   
   Prism () {
+    bSN = 4;
+    cirCumRad = 50;
+    leng = 50;
     name = "Custom Prism";
     fill = new int[3];
     fill[0] = -1;
@@ -31,7 +36,10 @@ public class Prism implements Polyhedra{
     
   
   
-  Prism (int fill1, int fill2, int fill3, float roteX, float roteY, float roteZ, int stroke1, int stroke2, int stroke3) {
+  Prism (int baseSides, int cirCR, int length ,int fill1, int fill2, int fill3, float roteX, float roteY, float roteZ, int stroke1, int stroke2, int stroke3) {
+    bSN = baseSides;
+    cirCumRad = cirCR;
+    leng = length;
     name = "Custom Prism"
     fill = new int[3];
     fill[0] = fill1;
@@ -136,6 +144,20 @@ public class Prism implements Polyhedra{
     getVert(position).setZ(z);
   } 
    
-  abstract void formPoly(); 
+  void formPoly() {
+    pushMatrix;
+    translate(0,0,0);
+    rotateX(0);
+    rotateY(0);
+    rotateZ(0);
+    for ( float theta = 0; theta <= 2*PI; theta += (2*PI/bSN) ) {
+      this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), 0);
+    }
+    for ( float theta = 0; theta <= 2*PI; theta += (2*PI/bSN) ) {
+      this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), (-1*leng) ;
+    }
+    popMatrix;
+  }
+      
    
 }
