@@ -1,4 +1,4 @@
-public class Prism {
+public class Prism implements Polyhedra {
   Vertex _start;
   Vertex _end;
   int numPoints;
@@ -17,9 +17,9 @@ public class Prism {
   int cirCumRad; //circum radius of base
   int leng; //length of prism on z axis
   
-  /*String getName () {
+  String getName () {
     return name;
-  }*/
+  }
   
   Prism () {
     bSN = 4;
@@ -90,14 +90,14 @@ public class Prism {
     }
     stroke(stroke[0], stroke[1], stroke[2]);
     Vertex hold = _start.getNext();
-    beginShape();
+    beginShape(QUAD_STRIP);
     int count = 0;
     while (hold != null) {
        vertex(hold.getX(), hold.getY(), hold.getZ());
        //println (hold.getX() + ", " + hold.getY() + ", " + hold.getZ());
        hold = hold.getNext();
     }
-    endShape(CLOSE);
+    endShape();
     popMatrix();
   }
   

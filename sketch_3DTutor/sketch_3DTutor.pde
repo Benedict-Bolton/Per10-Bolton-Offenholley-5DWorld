@@ -65,8 +65,8 @@ void setup() {
     //noFill();
     fill(204, 102, 0);
     
-    //                      Dimensions   Fill         Stroke         Rotation           Translation
-    Prism testy = new Prism (4,50,100,   204,102,0,   255,255,255,   PI/12,PI/6,PI/3,   0,0,0);
+    //                      Dimensions   Fill         Stroke         Rotation       Translation
+    Prism testy = new Prism (4,50,100,   204,102,0,   255,255,255,   PI/3,PI/6,0,   0,0,0);
     
     /*testy.add(-100, -100, -100);
     testy.add( 100, -100, -100);
