@@ -27,5 +27,13 @@ public class PolySelect {
   //will have one static method that determines what prism class to call 
   //and use for the user's choice of generated polygons
   //thus time was spent reading...less coding...twas much sad...
+  
+  
+  
+  for (float theta = 0; theta <= ((2*PI) + (2*PI/bSN)); theta += (2*PI/bSN) ) {
+      this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), 0);
+    }
+  
+  
  */ 
 }

@@ -23,6 +23,8 @@ int countInp;
 
 int incep;
 
+float zTest = 0;
+
 ArrayList<Prism> shapes;
 
 
@@ -66,7 +68,7 @@ void setup() {
     fill(204, 102, 0);
     
     //                      Dimensions   Fill         Stroke         Rotation       Translation
-    Prism testy = new Prism (4,50,100,   204,102,0,   255,255,255,   PI/3,PI/6,0,   0,0,0);
+    Prism testy = new Prism (9,50,100,   204,102,0,   255,255,255,   0,0,0,   0,0,0);
     
     /*testy.add(-100, -100, -100);
     testy.add( 100, -100, -100);
@@ -102,10 +104,16 @@ void setup() {
     //GWindow shaInp = new GWindow(this, "shapeChoice", 0, 0, 100, 100, false, "P2D");
 }
 
+
+
 void draw() {
   translate(width/2, height/2, 0);
   background(incep);
+  pushMatrix();
+  rotateX(zTest);
   shapes.get(0).makeShape();
+  zTest+=PI/400;
+  popMatrix();
   //tZ++;
   //println(shapes.get(0).getZOne());
 }

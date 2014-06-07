@@ -153,18 +153,43 @@ public class Prism implements Polyhedra {
     getVert(position).setY(y);
     getVert(position).setZ(z);
   } 
-   
+  
+  
+  //Many points have to be redrawn to create the desired shape due to how processing creates custom shapes with begin/endShape()
+  //The need to redraw so many points results in the need for all the math
+  //The math is serving to redraw the points in different orders so processing will fill all the spaces
   void formPoly() {
     for (float theta = 0; theta <= 2*PI; theta += (2*PI/bSN) ) {
       this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), 0);
       this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), (-1*leng) );
     }
-    for ( float theta = 0; theta <= 2*PI; theta += (2*PI/bSN) ) {
+    for ( float theta = 0; theta <= ( (2*PI) * ((bSN/2) + 1) ); theta += ( (2*PI/bSN) * ((bSN/2) + 1) ) ) {
       this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), 0 );
     }
-    for ( float theta = 0; theta <= 2*PI; theta += (2*PI/bSN) ) {
+    if (bSN% 2 == 1) {
+      for ( float theta = (2*PI/bSN); theta <= ( ((2*PI) * ((bSN/2) + 1)) + 2*(2*PI/bSN) ); theta += ( (2*PI/bSN) * ((bSN/2) + 1) ) ) {
+        this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), 0 );
+      }
+    }
+    else {
+      for (float theta = 0; theta <= ((2*PI) + (2*PI/bSN)); theta += (2*PI/bSN) ) {
+      this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), 0);
+      }
+    }
+    for ( float theta = 0; theta <= ( (2*PI) * ((bSN/2) + 1) ); theta += ( (2*PI/bSN) * ((bSN/2) + 1) ) ) {
       this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), (-1*leng) );
-    } 
+    }
+    if (bSN%2 == 1) { 
+      for ( float theta = (2*PI/bSN); theta <= ( ((2*PI) * ((bSN/2) + 1)) + 2*(2*PI/bSN) ); theta += ( (2*PI/bSN) * ((bSN/2) + 1) ) ) {
+        this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), (-1*leng) );
+      }
+    }
+    else {
+      for (float theta = 0; theta <= ((2*PI) + (2*PI/bSN)); theta += (2*PI/bSN) ) {
+        this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), (-1*leng) );
+      }
+    }
+    
   }
       
    
