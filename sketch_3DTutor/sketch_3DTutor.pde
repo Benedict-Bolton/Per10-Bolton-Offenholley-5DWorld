@@ -65,7 +65,9 @@ void setup() {
     //noFill();
     fill(204, 102, 0);
     
-    Prism testy = new Prism ( 4, 50, 100, 204, 102, 0, 255, 255, 255);
+    //                      Dimensions   Fill         Stroke         Rotation           Translation
+    Prism testy = new Prism (4,50,100,   204,102,0,   255,255,255,   PI/12,PI/6,PI/3,   0,0,0);
+    
     /*testy.add(-100, -100, -100);
     testy.add( 100, -100, -100);
     testy.add(   0,    0,  100);
@@ -88,6 +90,7 @@ void setup() {
     //testy.add(-100, -100, -100);
     //testy.add(  0, 0, -100);
     //testy.add(-100, -100, -100);
+    
     testy.makeShape();
     shapes.add(testy);
     //rect(0, 0, 100, 100);
@@ -205,8 +208,3 @@ public class ControlFrame extends PApplet {
   }
   
 }
-  
-  
-  
-  
-  

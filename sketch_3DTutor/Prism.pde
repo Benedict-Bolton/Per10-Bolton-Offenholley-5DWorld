@@ -1,19 +1,25 @@
-public class Prism implements Polyhedra{
+public class Prism {
   Vertex _start;
   Vertex _end;
   int numPoints;
-  int[] fill;
-  float[] rotations;
-  int[] stroke;
+  
+  int[] fill; //rgb values for fill(int,int,int);
+  int[] stroke; //rgb values for stroke(int,int,int);
+  
+  
+  float rotX; float rotY; float rotZ;//x,y,&z rotations
+  
+  int tranX; int tranY; int tranZ; //x,y,&z vals for translation method
+  
   String name;
   
-  int bSN;
-  int cirCumRad;
-  int leng;
+  int bSN; //number of sides of base
+  int cirCumRad; //circum radius of base
+  int leng; //length of prism on z axis
   
-  String getName () {
+  /*String getName () {
     return name;
-  }
+  }*/
   
   Prism () {
     bSN = 4;
@@ -22,25 +28,32 @@ public class Prism implements Polyhedra{
     name = "Custom Prism";
     fill = new int[3];
     fill[0] = -1;
-    rotations = new float[3];
-    for (int x = 0; x < rotations.length; x++) {
-        rotations[x] = 0;
-    } 
     stroke = new int[3];
     for (int x = 0; x < stroke.length; x++) {
         stroke[x] = 255;
     }
+    numPoints = 0;
     _start = new Vertex();
     _end = new Vertex(); 
   }
     
   
   
-  Prism (int baseSides, int cirCR, int lengOP ,int fillR, int fillG, int fillB, int strokeR, int strokeG, int strokeB) {
+  //lengOP is the length Of the Prism, cirCR is the circum radius of the base of the prism, otherwise variable names should be self-explanatory
+  //the letters correspond with those of RBGB
+  // rota == rotation
+  // trans == translation
+  Prism (int baseSides, int cirCR, int lengOP, int fillR, int fillG, int fillB, int strokeR, int strokeG, int strokeB, float xRota, float yRota, float zRota, int xTrans, int yTrans, int zTrans) {     
     bSN = baseSides;
     cirCumRad = cirCR;
     leng = lengOP;
     name = "Custom Prism";
+    rotX = xRota;
+    rotY = yRota;
+    rotZ = zRota;
+    tranX = xTrans;
+    tranY = yTrans;
+    tranZ = zTrans;
     fill = new int[3];
     fill[0] = fillR;
     fill[1] = fillG;
@@ -52,6 +65,7 @@ public class Prism implements Polyhedra{
     numPoints = 0;
     _start = new Vertex();
     _end = new Vertex();
+    formPoly();
   }
   
   float getZOne() {
@@ -62,7 +76,7 @@ public class Prism implements Polyhedra{
     return numPoints;
   }
   
-  void makeShape (rotX, rotY, rotZ, tranX, tranY, tranZ) {
+  void makeShape () {
     pushMatrix();
     translate(tranX, tranY, tranZ);
     rotateX(rotX);
@@ -76,7 +90,7 @@ public class Prism implements Polyhedra{
     }
     stroke(stroke[0], stroke[1], stroke[2]);
     Vertex hold = _start.getNext();
-    beginShape(QUAD_STRIP);
+    beginShape();
     int count = 0;
     while (hold != null) {
        vertex(hold.getX(), hold.getY(), hold.getZ());
@@ -141,12 +155,16 @@ public class Prism implements Polyhedra{
   } 
    
   void formPoly() {
-    for ( float theta = 0; theta <= 2*PI; theta += (2*PI/bSN) ) {
+    for (float theta = 0; theta <= 2*PI; theta += (2*PI/bSN) ) {
       this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), 0);
+      this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), (-1*leng) );
+    }
+    for ( float theta = 0; theta <= 2*PI; theta += (2*PI/bSN) ) {
+      this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), 0 );
     }
     for ( float theta = 0; theta <= 2*PI; theta += (2*PI/bSN) ) {
       this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), (-1*leng) );
-    }
+    } 
   }
       
    
