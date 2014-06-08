@@ -193,7 +193,6 @@ void setup() {
 void draw() {
   //translate(width/2, height/2, 0);
   background(incep);
-<<<<<<< HEAD
   pushMatrix();
   //rotateX(zTest);
   for (int x = 0; x <shapes.size(); x++) {
@@ -201,9 +200,6 @@ void draw() {
   }
   //zTest+=PI/400;
   popMatrix();
-=======
-  shapes.get(0).makeShape();
->>>>>>> 54893ae82c0feb3720e922ccd2928089cab9fec0
   //tZ++;
   //println(shapes.get(0).getZOne());
   if (keyPressed && !held) {
@@ -297,7 +293,7 @@ void draw() {
     if (mouseX != cenX && mouseY != cenY) {
       if (ddlPick[0] != -1) {
         if (ddlPick[0] == 0) {
-          shapes.add(new Prism(base, cCR, leng, currFill[0], currFill[1], currFill[2], currStroke[0], currStroke[1], currStroke[2], rotX, rotY, rotZ, (width/2)-right, (height/2)-zvar, (int)((height/2) / tan(PI/6)-(forward+ 2*leng)) ));
+          shapes.add(new Prism(base, cCR, leng, currFill[0], currFill[1], currFill[2], currStroke[0], currStroke[1], currStroke[2], rotX, rotY, rotZ, (width/2)-right, (height/2)-zvar, (int)((height/2) / tan(PI/6)-(forward+leng+50)) ));
           cenX = mouseX;
           cenY = mouseY;
         }
