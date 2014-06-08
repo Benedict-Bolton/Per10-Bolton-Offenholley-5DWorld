@@ -1,7 +1,7 @@
 import java.awt.Frame;
 import java.awt.BorderLayout;
 import controlP5.*;
-
+import java.io.*;
 
 
 private ControlP5 cp5;
@@ -37,10 +37,39 @@ int countInp;
 
 int incep;
 
-float zTest = 0;
-
 ArrayList<Prism> shapes;
+void appendToFile(String filename, String text){
+  BufferedReader rd = null;
+  String line="";
+        try {
 
+            // Open the file for reading.
+
+            rd = new BufferedReader(new FileReader(new File(filename)));
+
+             
+
+            // Read all contents of the file.
+
+            String inputLine = null;
+      
+            while((inputLine = rd.readLine()) != null)
+
+                line+=inputLine;
+
+        }
+
+        catch(IOException ex) {
+
+            System.err.println("An IOException was caught!");
+
+            ex.printStackTrace();
+
+        }
+
+        finally {
+
+<<<<<<< HEAD
 //the fill values to be used for all called polyhedra constructors
 int[] currFill = new int[3];
 //the stroke values to be used for all called polyhedra constructors
@@ -52,6 +81,39 @@ int[] currTrans = new int[3];
 
 
 static Polyhedra[][] PSHAPECALLS = new Polyhedra[2][4];
+=======
+            // Close the file.
+
+            try {
+
+                rd.close();
+
+            }
+
+            catch (IOException ex) {
+
+                System.err.println("An IOException was caught!");
+
+                ex.printStackTrace();
+
+            }
+
+        }
+
+    
+
+  Writer writer=null;
+  try{
+    writer=new BufferedWriter(new OutputStreamWriter(new FileOutputStream("hello.txt"), "utf-8"));
+    writer.write(line+text);
+  }catch (IOException ex){
+
+  } finally{
+    try{writer.close();} catch (Exception ex){}
+  }
+}
+static final Polyhedra[][] PSHAPECALLS = new Polyhedra[2][4];
+>>>>>>> 54893ae82c0feb3720e922ccd2928089cab9fec0
 
 void setup() {
     shapes = new ArrayList<Prism>();
@@ -93,8 +155,13 @@ void setup() {
     //noFill();
     fill(204, 102, 0);
     
+<<<<<<< HEAD
     //                      Dimensions   Fill         Stroke         Rotation Translation
     Prism testy = new Prism (6,50,100,   204,102,0,   255,255,255,   0,0,0,   0,0,0);
+=======
+    //                      Dimensions   Fill         Stroke         Rotation       Translation
+    Prism testy = new Prism (4,50,100,   204,102,0,   255,255,255,   PI/3,PI/6,0,   0,0,0);
+>>>>>>> 54893ae82c0feb3720e922ccd2928089cab9fec0
     
     /*testy.add(-100, -100, -100);
     testy.add( 100, -100, -100);
@@ -130,11 +197,10 @@ void setup() {
     //GWindow shaInp = new GWindow(this, "shapeChoice", 0, 0, 100, 100, false, "P2D");
 }
 
-
-
 void draw() {
   //translate(width/2, height/2, 0);
   background(incep);
+<<<<<<< HEAD
   pushMatrix();
   //rotateX(zTest);
   for (int x = 0; x <shapes.size(); x++) {
@@ -142,6 +208,9 @@ void draw() {
   }
   //zTest+=PI/400;
   popMatrix();
+=======
+  shapes.get(0).makeShape();
+>>>>>>> 54893ae82c0feb3720e922ccd2928089cab9fec0
   //tZ++;
   //println(shapes.get(0).getZOne());
   if (keyPressed && !held) {
