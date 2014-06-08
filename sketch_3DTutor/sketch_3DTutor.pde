@@ -12,13 +12,20 @@ float x,y,z;
 
 //int tZ;
 
-int base, heig, leng;
+//base == number of sides of the base
+//leng == length of prism
+//cCR == circum radius of Prism
+int base, cCR, leng;
 boolean FL;
 boolean held;
 char kp;
 int forward;
 int right;
 int zvar;
+
+float camCenX = 0;
+float camCenY = 0;
+
 String userInput;
 String[] savedInput;
 
@@ -32,11 +39,22 @@ float zTest = 0;
 
 ArrayList<Prism> shapes;
 
+//the fill values to be used for all called polyhedra constructors
+int[] currFill = new int[3];
+//the stroke values to be used for all called polyhedra constructors
+int[] currStroke = new int[3];
+//the rotation values to be used for all called polyhedra constructors
+float[] currRot = new float[3];
+//the translation values to be used for all called polyhedra constructors
+int[] currTrans = new int[3];
+
 
 static final Polyhedra[][] PSHAPECALLS = new Polyhedra[2][4];
 
 void setup() {
     shapes = new ArrayList<Prism>();
+    currFill[0] = -10;
+    currStroke[0] = -10;
     //tZ = -100;
     /*size(640,360,P3D);
     background(0);
@@ -59,11 +77,11 @@ void setup() {
     incep = 0;
     size(640, 360, P3D);
     background(incep);
-    frame.setLocation(500, 100);
+    frame.setLocation(700, 100);
     
     cp5 = new ControlP5(this);
     
-    cf = addControlFrame("select", 300, 400);
+    cf = addControlFrame("select", 300, 600);
     
     translate(width/2, height/2, 0);
     //stroke(255);
@@ -72,7 +90,7 @@ void setup() {
     //noFill();
     fill(204, 102, 0);
     
-    //                      Dimensions   Fill         Stroke         Rotation       Translation
+    //                      Dimensions   Fill         Stroke         Rotation Translation
     Prism testy = new Prism (9,50,100,   204,102,0,   255,255,255,   0,0,0,   0,0,0);
     
     /*testy.add(-100, -100, -100);
@@ -101,23 +119,23 @@ void setup() {
     testy.makeShape();
     shapes.add(testy);
     //rect(0, 0, 100, 100);
-    pushMatrix();
+    /*pushMatrix();
     rotateZ(PI/3);
     rotateX(PI/6);
     box(50);
-    popMatrix(); //so the fill is not cooperating at the moment for filling custom shapes....may Mr.K please have an answer...
+    popMatrix();*/ //so the fill is not cooperating at the moment for filling custom shapes....may Mr.K please have an answer...
     //GWindow shaInp = new GWindow(this, "shapeChoice", 0, 0, 100, 100, false, "P2D");
 }
 
 
 
 void draw() {
-  translate(width/2, height/2, 0);
+  //translate(width/2, height/2, 0);
   background(incep);
   pushMatrix();
-  rotateX(zTest);
+  //rotateX(zTest);
   shapes.get(0).makeShape();
-  zTest+=PI/400;
+  //zTest+=PI/400;
   popMatrix();
   //tZ++;
   //println(shapes.get(0).getZOne());
@@ -195,8 +213,16 @@ void draw() {
     
     spotLight(102, 153, 204, mouseX, mouseY, 600, 0, 0, -1, PI/2, 50);
   }
-  camera((width/2)-right, (height/2)-zvar, ((height/2) / tan(PI/6))-forward, mouseX-right, mouseY-zvar, 0-forward, 0, 1, 0);
-  translate(width/2, height/2, 0); 
+  /*if (mousePressed == true) {
+    camCenX = mouseX-right;
+    camCenY = mouseY-zvar;
+  }
+  else if (held){
+    camCenX = camCenX - right;
+    camCenY = camCenY - zvar;
+  }*/
+  camera((width/2)-right, (height/2)-zvar, ((height/2) / tan(PI/6))-forward, mouseX-right, mouseY-right, 0-forward, 0, 1, 0);
+  //camera(mouseX-right, mouseY-zvar, 0-forward, (width/2)-right, (height/2)-zvar, ((height/2) / tan(PI/6))-forward, 0, 1, 0); 
   //Light tester to avoid glitch:
   //spotLight(102, 153, 204, 1, 1, 600, 0, 0, -1, PI/2, 500);
   ambientLight(128, 128, 500);
@@ -221,6 +247,9 @@ public class ControlFrame extends PApplet {
   int _width;
   int _height;
   DropdownList shaSel;//shape selector
+  Textfield fillSel;//fill selector
+  Textfield strokeSel;//stroke selector
+  
   
   boolean makeShapeTime = false; 
   
@@ -234,20 +263,25 @@ public class ControlFrame extends PApplet {
     size(_width, _height);
     frameRate(30);
     cp5 = new ControlP5(this);
-    shaSel = cp5.addDropdownList("Polyhedra To Make:").setPosition(10,200);
+    shaSel = cp5.addDropdownList("Polyhedra To Make:").setPosition(10,350);
     dropDownDesign(shaSel); //add all necessary details to shaSel
-    cp5.addSlider("SNAFU").plugTo(parent,"incep").setRange(0,255).setPosition(10,30); //need to set up one of these for text fields
-    cp5.addSlider("Base Radiues").plugTo(parent,"heig").setRange(0,150).setPosition(10,60);
-    cp5.addSlider("Base Side Length").plugTo(parent,"base").setRange(0,150).setPosition(10,90);
-    cp5.addSlider("Length of Polyhedra").plugTo(parent,"leng").setRange(0,200).setPosition(10,120);
+    cp5.addSlider("SNAFU").plugTo(parent,"incep").setRange(0,255).setPosition(10,33).setSize(150,13); //need to set up one of these for text fields
+    cp5.addSlider("Base Radius").plugTo(parent,"cCR").setRange(10,200).setPosition(10,63).setSize(150,13);
+    cp5.addSlider("Number of Sides of Base").plugTo(parent,"base").setRange(3,30).setPosition(10,93).setSize(150,13);
+    cp5.addSlider("Height of Polyhedra").plugTo(parent,"leng").setRange(20,500).setPosition(10,123).setSize(150,13);
+    fillSel = cp5.addTextfield("Enter values for Fill:").setPosition(10, 225).setSize(100,20);
+    strokeSel = cp5.addTextfield("Enter values for Stroke:").setPosition(10, 265).setSize(100,20);
   }
   
   public void draw() {
     background(200);
+    fill(0);
+    text("Enter all values into text fields in the form: \"value1,value2,value3\" ;" + 
+    "with value1/value 2/value3 being the numbers you wish to input. Use \"-1,-1,-1\" for noFill()/noStroke. Press Enter to input.", 10, 150, 250, 205);
   }
   
   private ControlFrame() {
-    //hmm, this is kinda pointless, who knows what it may be needed for???
+    //hmm, this is kinda pointless, who knows what it may be needed for??? Only Andreas Schlegel knows...
   }
   
   public ControlFrame(Object patria, int wid, int hei) {
@@ -274,7 +308,7 @@ public class ControlFrame extends PApplet {
     ddl.valueLabel().style().marginTop = 3; //same as above just for the items in the ddl
     /* Ref for numbers, they are indices in 2D array holding what to call.
     First digit is the row, which corrsponds to the type of shape; i.e. prism, pyrimid, etc.
-      --this number will be extracted by %10-ing the number so single digits pose no problem
+      --this number will be extracted by /10-ing the number so single digits pose no problem
     Second digit is the colomn, it is sorted according to number of sides of defining face; i.e. 4 == a rect
     The First two colomns will be empty and should never be called */  
     ddl.addItem("Prism, Tri.", 3);
@@ -289,14 +323,51 @@ public class ControlFrame extends PApplet {
     if (event.isGroup()) {
       if (event.getGroup().getName().equals("Polyhedra To Make:")) {
         println("Num sides wanted: " + event.getGroup().getValue());
-        ddlPick[0] = 1;
+        ddlPick[0] = (int) (event.getGroup().getValue()/10);
         println(ddlPick[0] + ""); 
         ddlPick[1] = (int) event.getGroup().getValue();
         println(ddlPick[1] + "");
       }  
     }
     else if (event.isController()) {
-    }
-  }
+      if(event.isAssignableFrom(Textfield.class)) {
+        String inp = "";
+        int comInd1 = 0; //indices of the commas in inputed values for substring calls
+        int comInd2 = 0;
+        inp = event.getStringValue();
+        inp = inp.trim();
+        if (inp.substring(0,1).equals("\"")) {
+          inp = inp.substring(1);
+        }
+        if (inp.substring((inp.length() - 1), inp.length()).equals("\"")) {
+          inp = inp.substring(0,(inp.length()-1));
+        }
+        for (int ch = 0; ch < inp.length(); ch++) {
+          if (inp.substring(ch,ch+1).equals(",")) {
+            if (comInd1 == 0) {
+              comInd1 = ch;
+            }
+            else {
+              comInd2 = ch;
+            }
+          }
+        }
+        if(event.getController().getName().equals("Enter values for Fill:")) {
+          println("New Inputed Fill Values: " + inp);
+          currFill[0] = Integer.parseInt(inp.substring(0,comInd1));  //I realize these commands could be condense into a loop using two arrays,
+          currFill[1] = Integer.parseInt(inp.substring(comInd1 + 1, comInd2)); //but considering that I would only have at most three values it did 
+          currFill[2] = Integer.parseInt(inp.substring(comInd2 + 1, inp.length())); //not seem beneficial to condense considering # of lines to be written vs # of lines saved
+          println(currFill[0] + "");
+        }
+        if(event.getController().getName().equals("Enter values for Stroke:")) {
+          println("New Inputed Stroke Values: " + inp);
+          currStroke[0] = Integer.parseInt(inp.substring(0,comInd1));  //I realize these commands could be condense into a loop using two arrays,
+          currStroke[1] = Integer.parseInt(inp.substring(comInd1 + 1, comInd2)); //but considering that I would only have at most three values it did 
+          currStroke[2] = Integer.parseInt(inp.substring(comInd2 + 1, inp.length())); //not seem beneficial to condense considering # of lines to be written vs # of lines saved
+          println(currStroke[0] + ""); 
+        }
+      }//end if event.isAssignable
+    } //end else if(event.isController())
+  }//end controlEvent
   
-}
+}//ends ControlFrame

@@ -88,7 +88,12 @@ public class Prism implements Polyhedra {
     else {
       fill( fill[0], fill[1], fill[2]);
     }
-    stroke(stroke[0], stroke[1], stroke[2]);
+    if (stroke[0] < 0) {
+      noStroke();
+    }
+    else {
+      stroke(stroke[0], stroke[1], stroke[2]);
+    }
     Vertex hold = _start.getNext();
     beginShape(QUAD_STRIP);
     int count = 0;
@@ -97,7 +102,7 @@ public class Prism implements Polyhedra {
        //println (hold.getX() + ", " + hold.getY() + ", " + hold.getZ());
        hold = hold.getNext();
     }
-    endShape();
+    endShape(CLOSE);
     popMatrix();
   }
   
