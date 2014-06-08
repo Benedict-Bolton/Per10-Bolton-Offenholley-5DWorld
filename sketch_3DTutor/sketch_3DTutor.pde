@@ -1,7 +1,7 @@
 import java.awt.Frame;
 import java.awt.BorderLayout;
 import controlP5.*;
-
+import java.io.*;
 
 
 private ControlP5 cp5;
@@ -28,11 +28,68 @@ int countInp;
 
 int incep;
 
-float zTest = 0;
-
 ArrayList<Prism> shapes;
+void appendToFile(String filename, String text){
+  BufferedReader rd = null;
+  String line="";
+        try {
 
+            // Open the file for reading.
 
+            rd = new BufferedReader(new FileReader(new File(filename)));
+
+             
+
+            // Read all contents of the file.
+
+            String inputLine = null;
+      
+            while((inputLine = rd.readLine()) != null)
+
+                line+=inputLine;
+
+        }
+
+        catch(IOException ex) {
+
+            System.err.println("An IOException was caught!");
+
+            ex.printStackTrace();
+
+        }
+
+        finally {
+
+            // Close the file.
+
+            try {
+
+                rd.close();
+
+            }
+
+            catch (IOException ex) {
+
+                System.err.println("An IOException was caught!");
+
+                ex.printStackTrace();
+
+            }
+
+        }
+
+    
+
+  Writer writer=null;
+  try{
+    writer=new BufferedWriter(new OutputStreamWriter(new FileOutputStream("hello.txt"), "utf-8"));
+    writer.write(line+text);
+  }catch (IOException ex){
+
+  } finally{
+    try{writer.close();} catch (Exception ex){}
+  }
+}
 static final Polyhedra[][] PSHAPECALLS = new Polyhedra[2][4];
 
 void setup() {
@@ -73,7 +130,7 @@ void setup() {
     fill(204, 102, 0);
     
     //                      Dimensions   Fill         Stroke         Rotation       Translation
-    Prism testy = new Prism (9,50,100,   204,102,0,   255,255,255,   0,0,0,   0,0,0);
+    Prism testy = new Prism (4,50,100,   204,102,0,   255,255,255,   PI/3,PI/6,0,   0,0,0);
     
     /*testy.add(-100, -100, -100);
     testy.add( 100, -100, -100);
@@ -109,16 +166,10 @@ void setup() {
     //GWindow shaInp = new GWindow(this, "shapeChoice", 0, 0, 100, 100, false, "P2D");
 }
 
-
-
 void draw() {
   translate(width/2, height/2, 0);
   background(incep);
-  pushMatrix();
-  rotateX(zTest);
   shapes.get(0).makeShape();
-  zTest+=PI/400;
-  popMatrix();
   //tZ++;
   //println(shapes.get(0).getZOne());
   if (keyPressed && !held) {
