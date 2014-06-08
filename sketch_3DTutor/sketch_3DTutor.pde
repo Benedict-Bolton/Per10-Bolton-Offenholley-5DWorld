@@ -38,6 +38,19 @@ int countInp;
 int incep;
 
 ArrayList<Prism> shapes;
+
+//the fill values to be used for all called polyhedra constructors
+int[] currFill = new int[3];
+//the stroke values to be used for all called polyhedra constructors
+int[] currStroke = new int[3];
+//the rotation values to be used for all called polyhedra constructors
+float rotX, rotY, rotZ;
+//the translation values to be used for all called polyhedra constructors
+int[] currTrans = new int[3];
+
+
+static Polyhedra[][] PSHAPECALLS = new Polyhedra[2][4];
+
 void appendToFile(String filename, String text){
   BufferedReader rd = null;
   String line="";
@@ -69,19 +82,6 @@ void appendToFile(String filename, String text){
 
         finally {
 
-<<<<<<< HEAD
-//the fill values to be used for all called polyhedra constructors
-int[] currFill = new int[3];
-//the stroke values to be used for all called polyhedra constructors
-int[] currStroke = new int[3];
-//the rotation values to be used for all called polyhedra constructors
-float rotX, rotY, rotZ;
-//the translation values to be used for all called polyhedra constructors
-int[] currTrans = new int[3];
-
-
-static Polyhedra[][] PSHAPECALLS = new Polyhedra[2][4];
-=======
             // Close the file.
 
             try {
@@ -112,8 +112,6 @@ static Polyhedra[][] PSHAPECALLS = new Polyhedra[2][4];
     try{writer.close();} catch (Exception ex){}
   }
 }
-static final Polyhedra[][] PSHAPECALLS = new Polyhedra[2][4];
->>>>>>> 54893ae82c0feb3720e922ccd2928089cab9fec0
 
 void setup() {
     shapes = new ArrayList<Prism>();
@@ -155,13 +153,8 @@ void setup() {
     //noFill();
     fill(204, 102, 0);
     
-<<<<<<< HEAD
     //                      Dimensions   Fill         Stroke         Rotation Translation
     Prism testy = new Prism (6,50,100,   204,102,0,   255,255,255,   0,0,0,   0,0,0);
-=======
-    //                      Dimensions   Fill         Stroke         Rotation       Translation
-    Prism testy = new Prism (4,50,100,   204,102,0,   255,255,255,   PI/3,PI/6,0,   0,0,0);
->>>>>>> 54893ae82c0feb3720e922ccd2928089cab9fec0
     
     /*testy.add(-100, -100, -100);
     testy.add( 100, -100, -100);
