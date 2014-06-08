@@ -11,7 +11,7 @@ ControlFrame cf;
 float x,y,z;
 
 //int tZ;
-
+float drot;
 //base == number of sides of the base
 //leng == length of prism
 //cCR == circum radius of Prism
@@ -106,7 +106,7 @@ void appendToFile(String filename, String text){
 
   Writer writer=null;
   try{
-    writer=new BufferedWriter(new OutputStreamWriter(new FileOutputStream("hello.txt"), "utf-8"));
+    writer=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), "utf-8"));
     writer.write(line+text);
   }catch (IOException ex){
 
@@ -114,7 +114,68 @@ void appendToFile(String filename, String text){
     try{writer.close();} catch (Exception ex){}
   }
 }
+String readFile(String filename){
+  BufferedReader rd = null;
+  String line="";
+        try {
 
+            // Open the file for reading.
+
+            rd = new BufferedReader(new FileReader(new File(filename)));
+
+             
+
+            // Read all contents of the file.
+
+            String inputLine = null;
+      
+            while((inputLine = rd.readLine()) != null)
+
+                line+=inputLine;
+
+        }
+
+        catch(IOException ex) {
+
+            System.err.println("An IOException was caught!");
+
+            ex.printStackTrace();
+
+        }
+
+        finally {
+
+            // Close the file.
+
+            try {
+
+                rd.close();
+
+            }
+
+            catch (IOException ex) {
+
+                System.err.println("An IOException was caught!");
+
+                ex.printStackTrace();
+
+            }
+
+        }
+        return line;
+}
+void writeFile(String filename, String text){
+  
+  Writer writer=null;
+  try{
+    writer=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), "utf-8"));
+    writer.write(text);
+  }catch (IOException ex){
+
+  } finally{
+    try{writer.close();} catch (Exception ex){}
+  }
+}
 void setup() {
     //testing to make sure quicksort works with float 2D arrays
     /*float[][] nerv = { {7.4, 8.2, 9.9901,3.0000}, {3.1200078, 6.78, 1.01, 10.5}, {5.890, 2.10, 63.00}, {3.1200088, 777.777}};
@@ -245,6 +306,14 @@ void draw() {
       kp='x';
       
     }
+    if (key == 'q' || key == 'Q') {
+      kp='q';
+      
+    }
+    if (key == 'e' || key == 'E') {
+      kp='e';
+      
+    }
   }
   if (!keyPressed){
      held=false;
@@ -260,6 +329,7 @@ void draw() {
       //do left stuff. will work with other commands once
       //we figure out grid stuff
       right+=10;
+      
     }
     if (kp=='s'){
       //do backward stuff. will work with other commands once
@@ -270,16 +340,27 @@ void draw() {
       //do right stuff. will work with other commands once
       //we figure out grid stuff
       right-=10;
+      
     }
     if (kp=='z'){
       //do right stuff. will work with other commands once
       //we figure out grid stuff
-      zvar-=10;
+      zvar+=10;
     }
     if (kp=='x'){
       //do right stuff. will work with other commands once
       //we figure out grid stuff
-      zvar+=10;
+      zvar-=10;
+    }
+    if (kp=='q'){
+      //do right stuff. will work with other commands once
+      //we figure out grid stuff
+      drot+=0.05;
+    }
+    if (kp=='e'){
+      //do right stuff. will work with other commands once
+      //we figure out grid stuff
+      drot-=0.05;
     }
   }
 
@@ -296,7 +377,10 @@ void draw() {
     camCenX = camCenX - right;
     camCenY = camCenY - zvar;
   }*/
+  beginCamera();
   camera((width/2)-right, (height/2)-zvar, ((height/2) / tan(PI/6))-forward, mouseX-right, mouseY-zvar, 0-forward, 0, 1, 0);
+  rotateY(drot);
+  endCamera();
   //camera(mouseX-right, mouseY-zvar, 0-forward, (width/2)-right, (height/2)-zvar, ((height/2) / tan(PI/6))-forward, 0, 1, 0); 
   //Light tester to avoid glitch:
   //spotLight(102, 153, 204, 1, 1, 600, 0, 0, -1, PI/2, 500);
