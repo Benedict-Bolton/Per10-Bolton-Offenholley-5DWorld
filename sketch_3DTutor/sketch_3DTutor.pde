@@ -37,7 +37,9 @@ int countInp;
 
 int incep;
 
-ArrayList<Prism> shapes;
+ArrayList<Polyhedra> shapes;
+CollisionData polys;
+boolean canMove = true;
 
 //the fill values to be used for all called polyhedra constructors
 int[] currFill = new int[3];
@@ -45,7 +47,7 @@ int[] currFill = new int[3];
 int[] currStroke = new int[3];
 //the rotation values to be used for all called polyhedra constructors
 float rotX, rotY, rotZ;
-//the translation values to be used for all called polyhedra constructors
+//the translation values to be used for all called polyhedra constructors (not utilized)
 int[] currTrans = new int[3];
 
 
@@ -114,7 +116,16 @@ void appendToFile(String filename, String text){
 }
 
 void setup() {
-    shapes = new ArrayList<Prism>();
+    //testing to make sure quicksort works with float 2D arrays
+    /*float[][] nerv = { {7.4, 8.2, 9.9901,3.0000}, {3.1200078, 6.78, 1.01, 10.5}, {5.890, 2.10, 63.00}, {3.1200088, 777.777}};
+    Sorts.quicksort(nerv);
+    for (int r = 0; r < nerv.length; r++) {
+      for (int c = 0; c < nerv[r].length; c++) {
+        print(nerv[r][c] + ",");
+      }
+      print("\n");
+    }*/
+    shapes = new ArrayList<Polyhedra>();
     currFill[0] = -10;
     currStroke[0] = -10;
     ddlPick[0] = -1;
@@ -181,6 +192,7 @@ void setup() {
     
     testy.makeShape();
     shapes.add(testy);
+    polys = new CollisionData(shapes);
     //rect(0, 0, 100, 100);
     /*pushMatrix();
     rotateZ(PI/3);
@@ -293,7 +305,9 @@ void draw() {
     if (mouseX != cenX && mouseY != cenY) {
       if (ddlPick[0] != -1) {
         if (ddlPick[0] == 0) {
-          shapes.add(new Prism(base, cCR, leng, currFill[0], currFill[1], currFill[2], currStroke[0], currStroke[1], currStroke[2], rotX, rotY, rotZ, (width/2)-right, (height/2)-zvar, (int)((height/2) / tan(PI/6)-(forward+leng+50)) ));
+          Polyhedra newPoly = new Prism(base, cCR, leng, currFill[0], currFill[1], currFill[2], currStroke[0], currStroke[1], currStroke[2], rotX, rotY, rotZ, (width/2)-right, (height/2)-zvar, (int)((height/2) / tan(PI/6)-(forward+leng+50)) );
+          shapes.add(newPoly);
+          polys.addShape(newPoly);
           cenX = mouseX;
           cenY = mouseY;
         }

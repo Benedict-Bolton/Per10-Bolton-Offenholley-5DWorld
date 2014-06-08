@@ -1,7 +1,10 @@
 public class Prism implements Polyhedra {
-  Vertex _start;
-  Vertex _end;
-  int numPoints;
+  Vertex _start; //The linked list structure here may seem arbitrary but in fact gives a TAD bit of efficiency to the Polyhedra
+  Vertex _end;   //for with an array its size would have to be managed, resulting in extra code and time spent in resizing
+  int numPoints; //since adding to the end of the List is functionally exclusively add(float,float,float) it maintains O(1) time, while in an array it 
+                 //would be slightly higher with b/c of the occasional resizing, and both take O(n) to make a shape as regardless every element must be visited once.
+                 //Thus Linked List does provide a slight degree of efficiency, while also letting the code itself be a tad cleaner thanks to no indices needing to be tracked. 
+                 //It is recognized this is a small (almost personal) benefit, but are we not to enjoy the little things in Life?
   
   int[] fill; //rgb values for fill(int,int,int);
   int[] stroke; //rgb values for stroke(int,int,int);
@@ -19,6 +22,20 @@ public class Prism implements Polyhedra {
   
   String getName () {
     return name;
+  }
+  
+  float getCynRad() {
+    return cirCumRad;
+  }
+  float getCynHei() {
+    return leng;
+  }
+  int[] getTrans(){
+    int[] out = new int[3];
+    out[0] = tranX;
+    out[1] = tranY;
+    out[2] = tranZ;
+    return out;
   }
   
   Prism () {
@@ -162,7 +179,7 @@ public class Prism implements Polyhedra {
   
   //Many points have to be redrawn to create the desired shape due to how processing creates custom shapes with begin/endShape()
   //The need to redraw so many points results in the need for all the math
-  //The math is serving to redraw the points in different orders so processing will fill all the spaces
+  //The math is serving to redraw the points in different orders so processing will fill all the spaces. (the exact equations vary based on the line pattern preffered on the faces)
   void formPoly() {
     for (float theta = 0; theta <= 2*PI; theta += (2*PI/bSN) ) {
       this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), 0);
