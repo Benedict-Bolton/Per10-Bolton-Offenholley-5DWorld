@@ -23,8 +23,10 @@ int forward;
 int right;
 int zvar;
 
-float camCenX = 0;
-float camCenY = 0;
+float cenX;
+float cenY;
+
+
 
 String userInput;
 String[] savedInput;
@@ -44,17 +46,18 @@ int[] currFill = new int[3];
 //the stroke values to be used for all called polyhedra constructors
 int[] currStroke = new int[3];
 //the rotation values to be used for all called polyhedra constructors
-float[] currRot = new float[3];
+float rotX, rotY, rotZ;
 //the translation values to be used for all called polyhedra constructors
 int[] currTrans = new int[3];
 
 
-static final Polyhedra[][] PSHAPECALLS = new Polyhedra[2][4];
+static Polyhedra[][] PSHAPECALLS = new Polyhedra[2][4];
 
 void setup() {
     shapes = new ArrayList<Prism>();
     currFill[0] = -10;
     currStroke[0] = -10;
+    ddlPick[0] = -1;
     //tZ = -100;
     /*size(640,360,P3D);
     background(0);
@@ -81,7 +84,7 @@ void setup() {
     
     cp5 = new ControlP5(this);
     
-    cf = addControlFrame("select", 300, 600);
+    cf = addControlFrame("Select", 500, 600);
     
     translate(width/2, height/2, 0);
     //stroke(255);
@@ -91,7 +94,7 @@ void setup() {
     fill(204, 102, 0);
     
     //                      Dimensions   Fill         Stroke         Rotation Translation
-    Prism testy = new Prism (9,50,100,   204,102,0,   255,255,255,   0,0,0,   0,0,0);
+    Prism testy = new Prism (6,50,100,   204,102,0,   255,255,255,   0,0,0,   0,0,0);
     
     /*testy.add(-100, -100, -100);
     testy.add( 100, -100, -100);
@@ -134,7 +137,9 @@ void draw() {
   background(incep);
   pushMatrix();
   //rotateX(zTest);
-  shapes.get(0).makeShape();
+  for (int x = 0; x <shapes.size(); x++) {
+    shapes.get(x).makeShape();
+  }
   //zTest+=PI/400;
   popMatrix();
   //tZ++;
@@ -221,11 +226,25 @@ void draw() {
     camCenX = camCenX - right;
     camCenY = camCenY - zvar;
   }*/
-  camera((width/2)-right, (height/2)-zvar, ((height/2) / tan(PI/6))-forward, mouseX-right, mouseY-right, 0-forward, 0, 1, 0);
+  camera((width/2)-right, (height/2)-zvar, ((height/2) / tan(PI/6))-forward, mouseX-right, mouseY-zvar, 0-forward, 0, 1, 0);
   //camera(mouseX-right, mouseY-zvar, 0-forward, (width/2)-right, (height/2)-zvar, ((height/2) / tan(PI/6))-forward, 0, 1, 0); 
   //Light tester to avoid glitch:
   //spotLight(102, 153, 204, 1, 1, 600, 0, 0, -1, PI/2, 500);
   ambientLight(128, 128, 500);
+  if (mousePressed) {
+    if (mouseX != cenX && mouseY != cenY) {
+      if (ddlPick[0] != -1) {
+        if (ddlPick[0] == 0) {
+          shapes.add(new Prism(base, cCR, leng, currFill[0], currFill[1], currFill[2], currStroke[0], currStroke[1], currStroke[2], rotX, rotY, rotZ, (width/2)-right, (height/2)-zvar, (int)((height/2) / tan(PI/6)-(forward+ 2*leng)) ));
+          cenX = mouseX;
+          cenY = mouseY;
+        }
+        else if (ddlPick[0] == 1) {
+        }
+      }
+    }
+  }
+    
 }
 
 ControlFrame addControlFrame(String name, int wid, int hei) {
@@ -249,6 +268,9 @@ public class ControlFrame extends PApplet {
   DropdownList shaSel;//shape selector
   Textfield fillSel;//fill selector
   Textfield strokeSel;//stroke selector
+  Knob rotateX;
+  Knob rotateY;
+  Knob rotateZ;
   
   
   boolean makeShapeTime = false; 
@@ -259,18 +281,31 @@ public class ControlFrame extends PApplet {
   
   
   public void setup() {
-    background(100);
+    background(180);
     size(_width, _height);
     frameRate(30);
     cp5 = new ControlP5(this);
+    
     shaSel = cp5.addDropdownList("Polyhedra To Make:").setPosition(10,350);
     dropDownDesign(shaSel); //add all necessary details to shaSel
+   
     cp5.addSlider("SNAFU").plugTo(parent,"incep").setRange(0,255).setPosition(10,33).setSize(150,13); //need to set up one of these for text fields
     cp5.addSlider("Base Radius").plugTo(parent,"cCR").setRange(10,200).setPosition(10,63).setSize(150,13);
     cp5.addSlider("Number of Sides of Base").plugTo(parent,"base").setRange(3,30).setPosition(10,93).setSize(150,13);
     cp5.addSlider("Height of Polyhedra").plugTo(parent,"leng").setRange(20,500).setPosition(10,123).setSize(150,13);
+    
     fillSel = cp5.addTextfield("Enter values for Fill:").setPosition(10, 225).setSize(100,20);
     strokeSel = cp5.addTextfield("Enter values for Stroke:").setPosition(10, 265).setSize(100,20);
+    
+    rotateX = cp5.addKnob("Rotation Around X-Axis").setPosition(350,30).setColorBackground(color(0,160,100)).setColorForeground(color(255)).setColorActive(color(255,88,70));
+    knobDesign(rotateX);
+    rotateX.plugTo(parent,"rotX");
+    rotateY = cp5.addKnob("Rotation Around Y-Axis").setPosition(350,150).setColorBackground(color(104,3,107)).setColorForeground(color(255)).setColorActive(color(255,243,0));
+    knobDesign(rotateY);
+    rotateY.plugTo(parent,"rotY");
+    rotateZ = cp5.addKnob("Rotation Around Z-Axis").setPosition(350,270).setColorForeground(color(255)).setColorActive(color(255,172,46));
+    knobDesign(rotateZ);
+    rotateZ.plugTo(parent,"rotZ");
   }
   
   public void draw() {
@@ -318,6 +353,16 @@ public class ControlFrame extends PApplet {
     ddl.setColorActive(color(2, 255, 181));
   }
   
+  //keeps all the customization methods in one place for cleanliness
+  void knobDesign(Knob rkn) { 
+    rkn.setDragDirection(Knob.HORIZONTAL);
+    rkn.setRange(0,360);
+    rkn.setRadius(40);
+    rkn.setNumberOfTickMarks(48);
+    rkn.snapToTickMarks(true);
+    rkn.setTickMarkLength(7);
+  }
+  
   void controlEvent(ControlEvent event) {
     
     if (event.isGroup()) {
@@ -325,7 +370,7 @@ public class ControlFrame extends PApplet {
         println("Num sides wanted: " + event.getGroup().getValue());
         ddlPick[0] = (int) (event.getGroup().getValue()/10);
         println(ddlPick[0] + ""); 
-        ddlPick[1] = (int) event.getGroup().getValue();
+        ddlPick[1] = (int) (event.getGroup().getValue()%10);
         println(ddlPick[1] + "");
       }  
     }

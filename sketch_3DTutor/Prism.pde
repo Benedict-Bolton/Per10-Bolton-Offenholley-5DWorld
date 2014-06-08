@@ -168,7 +168,7 @@ public class Prism implements Polyhedra {
       this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), 0);
       this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), (-1*leng) );
     }
-    for ( float theta = 0; theta <= ( (2*PI) * ((bSN/2) + 1) ); theta += ( (2*PI/bSN) * ((bSN/2) + 1) ) ) {
+    for ( float theta = 0; theta <= ( (2*PI) * 2*((bSN/2) + 1) ); theta += ( (2*PI/bSN) * ((bSN/2) + 1) ) ) {
       this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), 0 );
     }
     if (bSN% 2 == 1) {
