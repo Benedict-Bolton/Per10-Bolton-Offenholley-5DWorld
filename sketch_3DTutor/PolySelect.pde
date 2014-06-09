@@ -19,6 +19,11 @@ public class PolySelect {
   String searchPrism (String foo) {
     if (foo.length() > 0) {
       if 
+      
+      
+      
+      //x = rcos(theta) ==> (0-right) + mouseX = rcos(theta) = arccos(x/r) = theta
+      //
   
   
   

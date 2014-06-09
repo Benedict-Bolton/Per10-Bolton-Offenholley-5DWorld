@@ -51,6 +51,8 @@ public class Prism implements Polyhedra {
     name = "";
     fill = new int[3];
     fill[0] = -1;
+    fill[1] = -1;
+    fill[2] = -1;
     stroke = new int[3];
     for (int x = 0; x < stroke.length; x++) {
         stroke[x] = 255;
@@ -70,7 +72,7 @@ public class Prism implements Polyhedra {
     bSN = baseSides;
     cirCumRad = cirCR;
     leng = lengOP;
-    name = "";
+    name = ""+baseSides+","+cirCR+","+lengOP+","+fillR+","+fillG+","+fillB+","+strokeR+","+strokeG+","+strokeB+","+xRota+","+yRota+","+zRota+","+xTrans+","+yTrans+","+zTrans;
     rotX = xRota;
     rotY = yRota;
     rotZ = zRota;
@@ -189,7 +191,7 @@ public class Prism implements Polyhedra {
   //The need to redraw so many points results in the need for all the math
   //The math is serving to redraw the points in different orders so processing will fill all the spaces. (the exact equations vary based on the line pattern preffered on the faces)
   void formPoly() {
-    for (float theta = 0; theta <= 2*PI; theta += (2*PI/bSN) ) {
+    for (float theta = 0; theta <= 2*PI + (2*PI/bSN); theta += (2*PI/bSN) ) {
       this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), 0);
       this.add( (cirCumRad) * (cos(theta)), (cirCumRad) * (sin(theta)), (-1*leng) );
     }

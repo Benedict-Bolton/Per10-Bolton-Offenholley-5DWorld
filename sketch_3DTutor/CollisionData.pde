@@ -21,9 +21,9 @@ class CollisionData {
   }
   
   CollisionData(ArrayList<Polyhedra> polies ) {            //float[] uLoc
-    xVals = new float[40][2];
-    yVals = new float[40][2];
-    zVals = new float[40][2];
+    xVals = new float[20][2];
+    yVals = new float[20][2];
+    zVals = new float[20][2];
     for (int e = 0; e < polies.size(); e++) {
       int[] inps = polies.get(e).getTrans();
       xVals[e][0] = inps[0];
@@ -47,7 +47,7 @@ class CollisionData {
       xVals[fin][1] = fin;
       yVals[fin][0] = inps[1];
       yVals[fin][1] = fin;
-      zVals[fin][0] = inps[2] - (0.5 *newSha.getCynHei());
+      zVals[fin][0] = (inps[2] - (0.5 *newSha.getCynHei()));
       zVals[fin][1] = fin;   
       fin++;
       Sorts.quicksort(xVals);
@@ -137,11 +137,14 @@ class CollisionData {
   boolean collide( ArrayList<Polyhedra> foo, float uX, float uY, float uZ) {
     boolean posMove = true;
     int[] hitShapeInd = {-1, -1, -1, -1, -1};
+    Sorts.quicksort(xVals);
+    Sorts.quicksort(yVals);
+    Sorts.quicksort(zVals);
     int[] closeX = BinSearch.binSearch(xVals, uX);
     int[] closeY = BinSearch.binSearch(yVals, uY);
     int[] closeZ = BinSearch.binSearch(zVals, uZ);
     //I present to you what seems to be the ugliest code i've ever written... it is checking for x,y,z coordinates that coorespond to singular shapes
-    /*A: for (int g = 0; g < closeX.length; g++) {
+    A: for (int g = 0; g < closeX.length; g++) {
       if (closeX[g] >= 0 && closeX[g] < xVals.length) { // if 1
       
         B: for (int h = 0; h < closeY.length; h++) {
@@ -171,12 +174,12 @@ class CollisionData {
         int oneX = inps[0];
         int oneY = inps[1];
         int oneZ = inps[2];
-        if (   ( ((uX - oneX) * (uX - oneX)) + ((uY - oneY) * (uY - oneY)) <= (colRad * colRad) ) &&
-                ( (uZ <= oneZ) && (uZ >= oneZ - colHei) )  ) {
+        if (   ( ((uX - oneX) * (uX - oneX)) + ((uY - oneY) * (uY - oneY)) <= (colRad * colRad) )  &&
+                ( (uZ <= oneZ) && (uZ >= (oneZ - colHei)) )  ) {
                   posMove = false;
                 }
       } 
-    }*/
+    }
     return posMove;
   }
   

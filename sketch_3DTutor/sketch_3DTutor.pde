@@ -68,46 +68,115 @@ int[] currTrans = new int[3];
 static Polyhedra[][] PSHAPECALLS = new Polyhedra[2][4];
 
 ArrayList<Polyhedra> fileToList(String file){
-  Prism p= new Prism();
+  Prism p;
   int i=0;
   int xyz=0;
   String s="";
   String q="";
-  float f;
-  float x=0.0;
-  float y=0.0;
-  float z=0.0;
+  float f=0.0;
+  int check=0;
+  
+  int bSides;
+  int cirCR;
+  int lengOP;
+  int fillR;
+  int fillG;
+  int fillB;
+  int strokeR;
+  int strokeG;
+  int strokeB;
+  int xTrans;
+  int yTrans;
+  int zTrans;
+  float yRota=0.0;
+  float zRota=0.0;
+  float xRota=0.0;
   ArrayList<Polyhedra> a= new ArrayList<Polyhedra>();
   while (i<file.length()){
-    q=file.substring(i,i+1);
-    if(q.equals("\n")){
-      
+   q=file.substring(i,i+1);
+   if(q.equals("\n")){
+      //almost sure the syntax error is in the following line, but I cannot for the life seem to be able to find it corrin
+      //p = new Prism (int bSides, int cirCR, int lengOP, int fillR, int fillG, int fillB, int strokeR, int strokeG, int strokeB, float xRota, float yRota, float zRota, int xTrans, int yTrans, int zTrans*/);
+        p = new Prism();
       a.add(p);
       p=new Prism();
     }
     if(q.equals(",")){
-      f=Float.parseFloat(s);
+      if(xyz!=9 || xyz!=10 || xyz!=11){
+        check=Integer.parseInt(s);
+      }else{
+        f=Float.parseFloat(s);
+      }
       s="";
       if (xyz==0){
-        x=f;
+        bSides=check;
         xyz++;
       }
       else if (xyz==1){
-        y=f;
+        cirCR=check;
         xyz++;
       }
       else if (xyz==2){
-        z=f;
-        xyz=0;
-        p.add(x,y,z);
+        lengOP=check;
+        xyz++;
       }
-    }else{
+      else if (xyz==3){
+        fillR=check;
+        xyz++;
+      }
+      else if (xyz==4){
+        fillG=check;
+        xyz++;
+      }
+      else if (xyz==5){
+        fillB=check;
+        xyz++;
+      }
+      else if (xyz==6){
+        strokeR=check;
+        xyz++;
+      }
+      else if (xyz==7){
+        strokeG=check;
+        xyz++;
+      }
+      else if (xyz==8){
+        strokeB=check;
+        xyz++;
+      }
+      else if (xyz==9){
+        xRota=f;
+        xyz++;
+      }
+      else if (xyz==10){
+        yRota=f;
+        xyz++;
+      }
+      else if (xyz==11){
+        zRota=f;
+        xyz++;
+      }
+      else if (xyz==12){
+        xTrans=check;
+        xyz++;
+      }
+      else if (xyz==13){
+        yTrans=check;
+        xyz++;
+      }
+      else if (xyz==14){
+        zTrans=check;
+        xyz=0;  
+      }
+    }
+    else{
       s+=q;
     }
     i++;
   }
   return a;
 }
+
 String listToFile(ArrayList<Polyhedra> a){
   
   String ans="";
@@ -241,7 +310,7 @@ void writeFile(String filename, String text){
 }
 void setup() {
     //testing to make sure quicksort/binSearch works with float 2D arrays adaptations
-    //float[][] nerv = { {7.4, 8.2, 9.9901,3.0000}, {3.1200078, 6.78, 1.01, 10.5}, {5.890, 2.10, 63.00}, {3.1200088, 777.777}, {9.0, 18.16}, {12.0, 0.00}, {42.7, 150.10, 40.3}  };
+    //float[][] nerv = { {7.4, 8.2, 9.9901}, {3.1200078, 6.78, 1.01}, {5.890, 2.10, 63.00}, {3.1200088, 777.777, 0.0}, {9.0, 18.16, 42.0}, {12.0, 0.00, 100.99}, {42.7, 150.10, 40.3}  };
     //Sorts.quicksort(nerv);
     /*for (int r = 0; r < nerv.length; r++) {
       for (int c = 0; c < nerv[r].length; c++) {
@@ -295,7 +364,7 @@ void setup() {
     //noFill();
     fill(204, 102, 0);
     
-    //                      Dimensions   Fill         Stroke         Rotation Translation
+    //testShape             Dimensions   Fill         Stroke         Rotation Translation
     Prism testy = new Prism (6,50,100,   204,102,0,   255,255,255,   0,0,0,   0,0,0);
     
     /*testy.add(-100, -100, -100);
@@ -391,9 +460,12 @@ void draw() {
   /*float uX = (width/2)-right; 
   float uY = (height/2)-zvar;
   float uZ = ((height/2) / tan(PI/6))-forward;*/
-  float uX = mouseX-right;
+  /*float uX = mouseX-right;
   float uY = mouseY-zvar; 
-  float uZ = 0 - forward;
+  float uZ = 0-forward;*/
+  float uX = (0-right) + (width/2);
+  float uY = (0-zvar) + (height/2);
+  float uZ = ((height/2) / tan(PI/6))-forward;
   
   if (held){
     if (kp=='w'){
@@ -401,6 +473,9 @@ void draw() {
       //we figure out grid stuff
       if (polys.collide(shapes, uX, uY, uZ + 10)) {
         forward+=10;
+      }
+      else {
+          forward-=100;
       }
       
     }
@@ -410,6 +485,9 @@ void draw() {
       if (polys.collide(shapes, uX+10, uY, uZ)) {
         right+=10;
       }
+      else {
+          right-=100;
+      }
       
     }
     if (kp=='s'){
@@ -418,12 +496,18 @@ void draw() {
       if (polys.collide(shapes, uX, uY, uZ - 10)) {
         forward-=10;
       }
+      else {
+          forward+=100;
+      }
     }
     if (kp=='d'){
       //do right stuff. will work with other commands once
       //we figure out grid stuff
       if (polys.collide(shapes, uX-10, uY, uZ)) {
         right-=10;
+      }
+      else {
+          right+=100;
       }
       
     }
@@ -433,12 +517,18 @@ void draw() {
       if (polys.collide(shapes, uX, uY + 10, uZ)) {
         zvar+=10;
       }
+      else {
+        zvar-=100;
+      }
     }
     if (kp=='x'){
       //do right stuff. will work with other commands once
       //we figure out grid stuff
       if (polys.collide(shapes, uX, uY - 10, uZ)) {
         zvar-=10;
+      }
+      else {
+        zvar+=100;
       }
     }
     if (kp=='q'){
@@ -478,8 +568,8 @@ void draw() {
     if (mouseX != cenX && mouseY != cenY) {
       if (ddlPick[0] != -1) {
         if (ddlPick[0] == 0) {
-          //,(width/2)-right, (height/2)-zvar, (int)( ((height/2) / tan(PI/6)) -(forward+leng+50)) (possible variant for placement
-          Polyhedra newPoly = new Prism(base, cCR, leng, currFill[0], currFill[1], currFill[2], currStroke[0], currStroke[1], currStroke[2], rotX, rotY, rotZ, mouseX-right, mouseY-zvar, 0-(forward+leng+50) );
+          //,(width/2)-right, (height/2)-zvar, (int)( ((height/2) / tan(PI/6)) -(forward+leng+50)) (possible variant for placement) 
+          Polyhedra newPoly = new Prism(base, cCR, leng, currFill[0], currFill[1], currFill[2], currStroke[0], currStroke[1], currStroke[2], rotX, rotY, rotZ, ((0-right) + mouseX), (0-zvar) + mouseY, (int) ((0-forward) *cos(drot)) );
           shapes.add(newPoly);
           polys.addShape(newPoly);
           cenX = mouseX;
@@ -490,6 +580,7 @@ void draw() {
       }
     }
   }
+
     
 }
 
@@ -537,7 +628,7 @@ public class ControlFrame extends PApplet {
     shaSel = cp5.addDropdownList("Polyhedra To Make:").setPosition(10,350);
     dropDownDesign(shaSel); //add all necessary details to shaSel
    
-    cp5.addSlider("SNAFU").plugTo(parent,"incep").setRange(0,255).setPosition(10,33).setSize(150,13); //need to set up one of these for text fields
+    cp5.addSlider("Background Color").plugTo(parent,"incep").setRange(0,255).setPosition(10,33).setSize(150,13); //need to set up one of these for text fields
     cp5.addSlider("Base Radius").plugTo(parent,"cCR").setRange(10,200).setPosition(10,63).setSize(150,13);
     cp5.addSlider("Number of Sides of Base").plugTo(parent,"base").setRange(3,30).setPosition(10,93).setSize(150,13);
     cp5.addSlider("Height of Polyhedra").plugTo(parent,"leng").setRange(20,500).setPosition(10,123).setSize(150,13);

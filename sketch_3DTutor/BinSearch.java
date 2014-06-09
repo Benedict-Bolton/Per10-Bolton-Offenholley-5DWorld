@@ -38,7 +38,7 @@ public class BinSearch {
                 ans[4] = mid + 2;
 		break;
 	    }
-	    if ( hi == lo) {
+	    if ( hi <= lo) {
                 ans[0] = mid - 2;
                 ans[1] = mid - 1;
                 ans[2] = mid;
