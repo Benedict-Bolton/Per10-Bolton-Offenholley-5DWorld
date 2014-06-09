@@ -20,17 +20,17 @@ class CollisionData {
     fin = 0;
   }
   
-  CollisionData(ArrayList<Polyhedra> polies /*float[] uLoc*/) {
-    xVals = new float[20][2];
-    yVals = new float[20][2];
-    zVals = new float[20][2];
+  CollisionData(ArrayList<Polyhedra> polies ) {            //float[] uLoc
+    xVals = new float[40][2];
+    yVals = new float[40][2];
+    zVals = new float[40][2];
     for (int e = 0; e < polies.size(); e++) {
       int[] inps = polies.get(e).getTrans();
       xVals[e][0] = inps[0];
       xVals[e][1] = e;
-      yVals[e][0] = inps[0];
+      yVals[e][0] = inps[1];
       yVals[e][1] = e;
-      zVals[e][0] = inps[0];
+      zVals[e][0] = inps[2] - (0.5 * polies.get(e).getCynHei());
       zVals[e][1] = e;
     }
     fin = polies.size();
@@ -45,9 +45,9 @@ class CollisionData {
       int[] inps = newSha.getTrans();
       xVals[fin][0] = inps[0];
       xVals[fin][1] = fin;
-      yVals[fin][0] = inps[0];
+      yVals[fin][0] = inps[1];
       yVals[fin][1] = fin;
-      zVals[fin][0] = inps[0];
+      zVals[fin][0] = inps[2] - (0.5 *newSha.getCynHei());
       zVals[fin][1] = fin;   
       fin++;
       Sorts.quicksort(xVals);
@@ -134,8 +134,48 @@ class CollisionData {
   }
   
   
-  boolean collide( ArrayList<Polyhedra> foo, float[] uLoc) {
-    return true;
+  boolean collide( ArrayList<Polyhedra> foo, float uX, float uY, float uZ) {
+    boolean posMove = true;
+    int[] hitShapeInd = {-1, -1, -1, -1, -1};
+    int[] closeX = BinSearch.binSearch(xVals, uX);
+    int[] closeY = BinSearch.binSearch(yVals, uY);
+    int[] closeZ = BinSearch.binSearch(zVals, uZ);
+    //I present to you what seems to be the ugliest code i've ever written... it is checking for x,y,z coordinates that coorespond to singular shapes
+    A: for (int g = 0; g < closeX.length; g++) {
+      if (closeX[g] >= 0 && closeX[g] < xVals.length) { // if 1
+      
+        B: for (int h = 0; h < closeY.length; h++) {
+          if (closeY[h] >= 0 && closeY[h] < yVals.length) { // if 2
+            if (xVals[closeX[g]][1] == yVals[closeY[h]][1]) { // if 3
+                     
+              C: for (int k = 0; k < closeZ.length; k++) {
+                if (closeZ[k] >= 0 && closeZ[k] < zVals.length) { // if 4
+                  if (xVals[closeX[g]][1] == zVals[closeZ[k]][1]) { // if 5
+                    hitShapeInd[g] = (int)xVals[closeX[g]][1];
+                    break B; //breaks the yVal loop to check the next xVal index
+                  }//end if 5
+                }//end if 4
+              }//end loop C
+              
+            }//end if 3
+          }//end if 2
+        }//end loop B
+        
+      }//end if 1
+    }//end loop A
+    for (int w = 0; w < hitShapeInd.length; w++) {
+      if (hitShapeInd[w] >= 0) {
+        float colRad = foo.get(hitShapeInd[w]).getCynRad();
+        float colHei = foo.get(hitShapeInd[w]).getCynHei();
+        int[] inps = foo.get(hitShapeInd[w]).getTrans();
+        int oneX = inps[0];
+        int oneY = inps[1];
+        int oneZ = inps[2];
+        return (   ( ((uX - oneX) * (uX - oneX)) + ((uY - oneY) * (uY - oneY)) <= (colRad * colRad) ) &&
+                ( (uZ <= oneZ) && (uZ >= oneZ - colHei) )  );
+      } 
+    }
+    return posMove;
   }
   
   

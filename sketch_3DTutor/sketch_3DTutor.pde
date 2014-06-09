@@ -12,7 +12,7 @@ float x,y,z;
 
 //int tZ;
 float drot;
-//base == number of sides of the base
+//base == number of sides of the based
 //leng == length of prism
 //cCR == circum radius of Prism
 int base, cCR, leng;
@@ -177,12 +177,19 @@ void writeFile(String filename, String text){
   }
 }
 void setup() {
-    //testing to make sure quicksort works with float 2D arrays
-    /*float[][] nerv = { {7.4, 8.2, 9.9901,3.0000}, {3.1200078, 6.78, 1.01, 10.5}, {5.890, 2.10, 63.00}, {3.1200088, 777.777}};
-    Sorts.quicksort(nerv);
-    for (int r = 0; r < nerv.length; r++) {
+    //testing to make sure quicksort/binSearch works with float 2D arrays adaptations
+    //float[][] nerv = { {7.4, 8.2, 9.9901,3.0000}, {3.1200078, 6.78, 1.01, 10.5}, {5.890, 2.10, 63.00}, {3.1200088, 777.777}, {9.0, 18.16}, {12.0, 0.00}, {42.7, 150.10, 40.3}  };
+    //Sorts.quicksort(nerv);
+    /*for (int r = 0; r < nerv.length; r++) {
       for (int c = 0; c < nerv[r].length; c++) {
         print(nerv[r][c] + ",");
+      }
+      print("\n");
+    }*/
+    /*int[] danger = BinSearch.binSearch(nerv, 7.290);
+    for (int x = 0; x < danger.length; x++) {
+      for (int c = 0; c < nerv[danger[x]].length; c++) {
+        print(nerv[danger[x]][c] + ",");
       }
       print("\n");
     }*/
@@ -318,39 +325,58 @@ void draw() {
   if (!keyPressed){
      held=false;
   }
+  /*float uX = (width/2)-right; 
+  float uY = (height/2)-zvar;
+  float uZ = ((height/2) / tan(PI/6))-forward;*/
+  float uX = mouseX-right;
+  float uY = mouseY-zvar; 
+  float uZ = 0-forward;
+  
   if (held){
     if (kp=='w'){
       //do forward stuff. will work with other commands once
       //we figure out grid stuff
-      forward+=10;
+      if (polys.collide(shapes, uX, uY, uZ + 15)) {
+        forward+=10;
+      }
       
     }
     if (kp=='a'){
       //do left stuff. will work with other commands once
       //we figure out grid stuff
-      right+=10;
+      if (polys.collide(shapes, uX+15, uY, uZ)) {
+        right+=10;
+      }
       
     }
     if (kp=='s'){
       //do backward stuff. will work with other commands once
       //we figure out grid stuff
-      forward-=10;
+      if (polys.collide(shapes, uX, uY, uZ - 15)) {
+        forward-=10;
+      }
     }
     if (kp=='d'){
       //do right stuff. will work with other commands once
       //we figure out grid stuff
-      right-=10;
+      if (polys.collide(shapes, uX-15, uY, uZ)) {
+        right-=10;
+      }
       
     }
     if (kp=='z'){
       //do right stuff. will work with other commands once
       //we figure out grid stuff
-      zvar+=10;
+      if (polys.collide(shapes, uX, uY + 15, uZ)) {
+        zvar+=10;
+      }
     }
     if (kp=='x'){
       //do right stuff. will work with other commands once
       //we figure out grid stuff
-      zvar-=10;
+      if (polys.collide(shapes, uX, uY - 15, uZ)) {
+        zvar-=10;
+      }
     }
     if (kp=='q'){
       //do right stuff. will work with other commands once
@@ -389,7 +415,8 @@ void draw() {
     if (mouseX != cenX && mouseY != cenY) {
       if (ddlPick[0] != -1) {
         if (ddlPick[0] == 0) {
-          Polyhedra newPoly = new Prism(base, cCR, leng, currFill[0], currFill[1], currFill[2], currStroke[0], currStroke[1], currStroke[2], rotX, rotY, rotZ, (width/2)-right, (height/2)-zvar, (int)((height/2) / tan(PI/6)-(forward+leng+50)) );
+          //,(width/2)-right, (height/2)-zvar, (int)( ((height/2) / tan(PI/6)) -(forward+leng+50)) (possible variant for placement
+          Polyhedra newPoly = new Prism(base, cCR, leng, currFill[0], currFill[1], currFill[2], currStroke[0], currStroke[1], currStroke[2], rotX, rotY, rotZ, mouseX-right, mouseY-zvar, 0-(forward+leng+50) );
           shapes.add(newPoly);
           polys.addShape(newPoly);
           cenX = mouseX;
