@@ -123,9 +123,9 @@ class CollisionData {
           float[][] newX = new float[xVals.length/2][xVals[0].length];
           float[][] newY = new float[yVals.length/2][yVals[0].length];
           float[][] newZ = new float[zVals.length/2][zVals[0].length];
-          copTwoD(xVals,newX);
-          copTwoD(yVals,newY);
-          copTwoD(zVals,newZ);
+          copTwoD(newX,xVals);
+          copTwoD(newY,yVals);
+          copTwoD(newZ,zVals);
           xVals = newX;
           yVals = newY;
           zVals = newZ;

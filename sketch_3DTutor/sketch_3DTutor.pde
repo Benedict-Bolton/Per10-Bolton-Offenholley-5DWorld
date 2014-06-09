@@ -399,7 +399,7 @@ void draw() {
     if (kp=='w'){
       //do forward stuff. will work with other commands once
       //we figure out grid stuff
-      if (polys.collide(shapes, uX, uY, uZ + 15)) {
+      if (polys.collide(shapes, uX, uY, uZ + 10)) {
         forward+=10;
       }
       
@@ -407,7 +407,7 @@ void draw() {
     if (kp=='a'){
       //do left stuff. will work with other commands once
       //we figure out grid stuff
-      if (polys.collide(shapes, uX+15, uY, uZ)) {
+      if (polys.collide(shapes, uX+10, uY, uZ)) {
         right+=10;
       }
       
@@ -415,14 +415,14 @@ void draw() {
     if (kp=='s'){
       //do backward stuff. will work with other commands once
       //we figure out grid stuff
-      if (polys.collide(shapes, uX, uY, uZ - 15)) {
+      if (polys.collide(shapes, uX, uY, uZ - 10)) {
         forward-=10;
       }
     }
     if (kp=='d'){
       //do right stuff. will work with other commands once
       //we figure out grid stuff
-      if (polys.collide(shapes, uX-15, uY, uZ)) {
+      if (polys.collide(shapes, uX-10, uY, uZ)) {
         right-=10;
       }
       
@@ -430,14 +430,14 @@ void draw() {
     if (kp=='z'){
       //do right stuff. will work with other commands once
       //we figure out grid stuff
-      if (polys.collide(shapes, uX, uY + 15, uZ)) {
+      if (polys.collide(shapes, uX, uY + 10, uZ)) {
         zvar+=10;
       }
     }
     if (kp=='x'){
       //do right stuff. will work with other commands once
       //we figure out grid stuff
-      if (polys.collide(shapes, uX, uY - 15, uZ)) {
+      if (polys.collide(shapes, uX, uY - 10, uZ)) {
         zvar-=10;
       }
     }
