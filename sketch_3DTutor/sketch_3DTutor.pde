@@ -393,7 +393,7 @@ void draw() {
   float uZ = ((height/2) / tan(PI/6))-forward;*/
   float uX = mouseX-right;
   float uY = mouseY-zvar; 
-  float uZ = 0-forward;
+  float uZ = 0 - forward;
   
   if (held){
     if (kp=='w'){
@@ -544,8 +544,8 @@ public class ControlFrame extends PApplet {
     
     fillSel = cp5.addTextfield("Enter values for Fill:").setPosition(10, 225).setSize(100,20);
     strokeSel = cp5.addTextfield("Enter values for Stroke:").setPosition(10, 265).setSize(100,20);
-    loadFile = cp5.addTextfield("Enter values for Fill:").setPosition(10, 225).setSize(100,20);
-    strokeSel = cp5.addTextfield("Enter values for Stroke:").setPosition(10, 265).setSize(100,20);
+    loadFile = cp5.addTextfield("Enter Name File to Load (Use Absolute(Full) Path):").setPosition(10, 450).setSize(350,20);
+    strokeSel = cp5.addTextfield("Enter Name File to Save (Use Absolute(Full) Path):").setPosition(10, 490).setSize(350,20);
     
     rotateX = cp5.addKnob("Rotation Around X-Axis").setPosition(350,30).setColorBackground(color(0,160,100)).setColorForeground(color(255)).setColorActive(color(255,88,70));
     knobDesign(rotateX);
@@ -596,9 +596,9 @@ public class ControlFrame extends PApplet {
       --this number will be extracted by /10-ing the number so single digits pose no problem
     Second digit is the colomn, it is sorted according to number of sides of defining face; i.e. 4 == a rect
     The First two colomns will be empty and should never be called */  
-    ddl.addItem("Prism, Tri.", 3);
-    ddl.addItem("Prism, Rect.", 4); 
-    ddl.addItem("Prism, Pent.", 5);
+    ddl.addItem("Prism", 3);
+    ddl.addItem("Pyramid, (Not yet implemented)", 4); 
+    ddl.addItem("Sphere, (Not yet implemented)", 5);
     ddl.setColorBackground(color(100));
     ddl.setColorActive(color(2, 255, 181));
   }
@@ -626,40 +626,48 @@ public class ControlFrame extends PApplet {
     }
     else if (event.isController()) {
       if(event.isAssignableFrom(Textfield.class)) {
-        String inp = "";
-        int comInd1 = 0; //indices of the commas in inputed values for substring calls
-        int comInd2 = 0;
-        inp = event.getStringValue();
-        inp = inp.trim();
-        if (inp.substring(0,1).equals("\"")) {
-          inp = inp.substring(1);
-        }
-        if (inp.substring((inp.length() - 1), inp.length()).equals("\"")) {
-          inp = inp.substring(0,(inp.length()-1));
-        }
-        for (int ch = 0; ch < inp.length(); ch++) {
-          if (inp.substring(ch,ch+1).equals(",")) {
-            if (comInd1 == 0) {
-              comInd1 = ch;
-            }
-            else {
-              comInd2 = ch;
+        if ( (event.getController().getName().equals("Enter values for Fill:") ) || (event.getController().getName().equals("Enter values for Stroke:")) ) {
+          String inp = "";
+          int comInd1 = 0; //indices of the commas in inputed values for substring calls
+          int comInd2 = 0;
+          inp = event.getStringValue();
+          inp = inp.trim();
+          if (inp.substring(0,1).equals("\"")) {
+            inp = inp.substring(1);
+          }
+          if (inp.substring((inp.length() - 1), inp.length()).equals("\"")) {
+            inp = inp.substring(0,(inp.length()-1));
+          }
+          for (int ch = 0; ch < inp.length(); ch++) {
+            if (inp.substring(ch,ch+1).equals(",")) {
+              if (comInd1 == 0) {
+                comInd1 = ch;
+              }
+              else {
+                comInd2 = ch;
+              }
             }
           }
+          if(event.getController().getName().equals("Enter values for Fill:")) {
+            println("New Inputed Fill Values: " + inp);
+            currFill[0] = Integer.parseInt(inp.substring(0,comInd1));  //I realize these commands could be condense into a loop using two arrays,
+            currFill[1] = Integer.parseInt(inp.substring(comInd1 + 1, comInd2)); //but considering that I would only have at most three values it did 
+            currFill[2] = Integer.parseInt(inp.substring(comInd2 + 1, inp.length())); //not seem beneficial to condense considering # of lines to be written vs # of lines saved
+            println(currFill[0] + "");
+          }
+          if(event.getController().getName().equals("Enter values for Stroke:")) {
+            println("New Inputed Stroke Values: " + inp);
+            currStroke[0] = Integer.parseInt(inp.substring(0,comInd1));  //I realize these commands could be condense into a loop using two arrays,
+            currStroke[1] = Integer.parseInt(inp.substring(comInd1 + 1, comInd2)); //but considering that I would only have at most three values it did 
+            currStroke[2] = Integer.parseInt(inp.substring(comInd2 + 1, inp.length())); //not seem beneficial to condense considering # of lines to be written vs # of lines saved
+            println(currStroke[0] + ""); 
+          }
+        }//end if event is stroke or fill
+        if (event.getController().getName().equals("Enter Name File to Load (Use Absolute(Full) Path):")) {
+           shapes = fileToList(readFile(event.getStringValue()));
         }
-        if(event.getController().getName().equals("Enter values for Fill:")) {
-          println("New Inputed Fill Values: " + inp);
-          currFill[0] = Integer.parseInt(inp.substring(0,comInd1));  //I realize these commands could be condense into a loop using two arrays,
-          currFill[1] = Integer.parseInt(inp.substring(comInd1 + 1, comInd2)); //but considering that I would only have at most three values it did 
-          currFill[2] = Integer.parseInt(inp.substring(comInd2 + 1, inp.length())); //not seem beneficial to condense considering # of lines to be written vs # of lines saved
-          println(currFill[0] + "");
-        }
-        if(event.getController().getName().equals("Enter values for Stroke:")) {
-          println("New Inputed Stroke Values: " + inp);
-          currStroke[0] = Integer.parseInt(inp.substring(0,comInd1));  //I realize these commands could be condense into a loop using two arrays,
-          currStroke[1] = Integer.parseInt(inp.substring(comInd1 + 1, comInd2)); //but considering that I would only have at most three values it did 
-          currStroke[2] = Integer.parseInt(inp.substring(comInd2 + 1, inp.length())); //not seem beneficial to condense considering # of lines to be written vs # of lines saved
-          println(currStroke[0] + ""); 
+        if (event.getController().getName().equals("Enter Name File to Save (Use Absolute(Full) Path):")) {
+            writeFile(event.getStringValue(), listToFile(shapes));
         }
       }//end if event.isAssignable
     } //end else if(event.isController())

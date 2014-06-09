@@ -141,7 +141,7 @@ class CollisionData {
     int[] closeY = BinSearch.binSearch(yVals, uY);
     int[] closeZ = BinSearch.binSearch(zVals, uZ);
     //I present to you what seems to be the ugliest code i've ever written... it is checking for x,y,z coordinates that coorespond to singular shapes
-    A: for (int g = 0; g < closeX.length; g++) {
+    /*A: for (int g = 0; g < closeX.length; g++) {
       if (closeX[g] >= 0 && closeX[g] < xVals.length) { // if 1
       
         B: for (int h = 0; h < closeY.length; h++) {
@@ -176,7 +176,7 @@ class CollisionData {
                   posMove = false;
                 }
       } 
-    }
+    }*/
     return posMove;
   }
   
