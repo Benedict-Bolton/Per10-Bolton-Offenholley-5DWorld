@@ -25,9 +25,23 @@ int zvar;
 
 float cenX;
 float cenY;
+/*
 
 
 
+
+FILE STORING CONVENTION:
+x,y,z,x,y,z,x,y,z,x,y,z,\n for one shape.
+Each triplet is one vertex.
+Next line is next shape.
+Reader will distinguish between shapes by locating \n ' s
+
+
+
+Oink.
+
+
+*/
 String userInput;
 String[] savedInput;
 
@@ -53,6 +67,55 @@ int[] currTrans = new int[3];
 
 static Polyhedra[][] PSHAPECALLS = new Polyhedra[2][4];
 
+ArrayList<Polyhedra> fileToList(String file){
+  Prism p= new Prism();
+  int i=0;
+  int xyz=0;
+  String s="";
+  String q="";
+  float f;
+  float x=0.0;
+  float y=0.0;
+  float z=0.0;
+  ArrayList<Polyhedra> a= new ArrayList<Polyhedra>();
+  while (i<file.length()){
+    q=file.substring(i,i+1);
+    if(q.equals("\n")){
+      
+      a.add(p);
+      p=new Prism();
+    }
+    if(q.equals(",")){
+      f=Float.parseFloat(s);
+      s="";
+      if (xyz==0){
+        x=f;
+        xyz++;
+      }
+      else if (xyz==1){
+        y=f;
+        xyz++;
+      }
+      else if (xyz==2){
+        z=f;
+        xyz=0;
+        p.add(x,y,z);
+      }
+    }else{
+      s+=q;
+    }
+    i++;
+  }
+  return a;
+}
+String listToFile(ArrayList<Polyhedra> a){
+  
+  String ans="";
+  for (int i=0;i<a.size();i++){
+    ans=ans+a.get(i)+"\n";
+  }
+  return ans;
+}
 void appendToFile(String filename, String text){
   BufferedReader rd = null;
   String line="";

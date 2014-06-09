@@ -23,6 +23,11 @@ public class Prism implements Polyhedra {
   String getName () {
     return name;
   }
+
+  String toString () {
+    return name;
+  }
+
   
   float getCynRad() {
     return cirCumRad;
@@ -38,11 +43,12 @@ public class Prism implements Polyhedra {
     return out;
   }
   
+
   Prism () {
     bSN = 4;
     cirCumRad = 50;
     leng = 50;
-    name = "Custom Prism";
+    name = "";
     fill = new int[3];
     fill[0] = -1;
     stroke = new int[3];
@@ -64,7 +70,7 @@ public class Prism implements Polyhedra {
     bSN = baseSides;
     cirCumRad = cirCR;
     leng = lengOP;
-    name = "Custom Prism";
+    name = "";
     rotX = xRota;
     rotY = yRota;
     rotZ = zRota;
@@ -134,6 +140,7 @@ public class Prism implements Polyhedra {
   }
   
   void add (float x, float y, float z, int position) {
+    name=name+""+x+","+y+","+z+",";
     Vertex newOne = new Vertex (x, y, z);
     if (numPoints == 0) {
        _start.setNext(newOne);
@@ -150,6 +157,7 @@ public class Prism implements Polyhedra {
   }
   
   void add (float x, float y, float z) {
+    name=name+""+x+","+y+","+z+",";
     Vertex newOne = new Vertex (x, y, z);
     if (numPoints == 0) {
       _start.setNext(newOne);
