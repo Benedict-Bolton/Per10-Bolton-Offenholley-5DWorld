@@ -171,8 +171,10 @@ class CollisionData {
         int oneX = inps[0];
         int oneY = inps[1];
         int oneZ = inps[2];
-        return (   ( ((uX - oneX) * (uX - oneX)) + ((uY - oneY) * (uY - oneY)) <= (colRad * colRad) ) &&
-                ( (uZ <= oneZ) && (uZ >= oneZ - colHei) )  );
+        if (   ( ((uX - oneX) * (uX - oneX)) + ((uY - oneY) * (uY - oneY)) <= (colRad * colRad) ) &&
+                ( (uZ <= oneZ) && (uZ >= oneZ - colHei) )  ) {
+                  posMove = false;
+                }
       } 
     }
     return posMove;

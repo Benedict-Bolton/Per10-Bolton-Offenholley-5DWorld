@@ -514,6 +514,8 @@ public class ControlFrame extends PApplet {
   DropdownList shaSel;//shape selector
   Textfield fillSel;//fill selector
   Textfield strokeSel;//stroke selector
+  Textfield loadFile;//loading file
+  Textfield saveFile;//save file
   Knob rotateX;
   Knob rotateY;
   Knob rotateZ;
@@ -541,6 +543,8 @@ public class ControlFrame extends PApplet {
     cp5.addSlider("Height of Polyhedra").plugTo(parent,"leng").setRange(20,500).setPosition(10,123).setSize(150,13);
     
     fillSel = cp5.addTextfield("Enter values for Fill:").setPosition(10, 225).setSize(100,20);
+    strokeSel = cp5.addTextfield("Enter values for Stroke:").setPosition(10, 265).setSize(100,20);
+    loadFile = cp5.addTextfield("Enter values for Fill:").setPosition(10, 225).setSize(100,20);
     strokeSel = cp5.addTextfield("Enter values for Stroke:").setPosition(10, 265).setSize(100,20);
     
     rotateX = cp5.addKnob("Rotation Around X-Axis").setPosition(350,30).setColorBackground(color(0,160,100)).setColorForeground(color(255)).setColorActive(color(255,88,70));
