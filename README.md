@@ -42,14 +42,18 @@ Authors:
 Known Bugs and Issues:
   -- Collision detection mathematics do always not work as intended and will allow you to phase through some parts of
 some polyhedra
+
   -- Saving and Loading worlds to/from textfiles is non-functional despite textfield presence on the GUI. Issue presently
 being with copying data from txt file to a string and then back into storage ArrayList that is used in the World.
+
   -- As of now does not seem possible in processing to simply create any-number-sided regular polygon in 3D, you must make
 a series of triangles/quad_strips and overlap them to fill the desired shape.
+
   -- Was not able to enable camera rotation in full 360 degrees (ie such as a human turning around in a circle). Only 
 able to enable different view points in same direction (ie like a human moving their head without turning their feet).
 Temp fix is to rotate the world when the user wishes to turn, this shows all angles of the polygons but does interfere
 and disrupt the Math which is used for shape placement and collision detection
+
   -- Movement blocking failed to prevent collision/camera-polyhedra overlap so presently movement reversals are being used
 to handle collisions, which force the camera back many pixels from the polyhedra it would have collided with. Due to
 occasional failings in the Math used for detection of collision this does not always result in the camera returning to the
