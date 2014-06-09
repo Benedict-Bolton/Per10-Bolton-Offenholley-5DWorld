@@ -23,11 +23,11 @@ public class Prism implements Polyhedra {
   String getName () {
     return name;
   }
-<<<<<<< HEAD
+
   String toString () {
     return name;
   }
-=======
+
   
   float getCynRad() {
     return cirCumRad;
@@ -43,7 +43,7 @@ public class Prism implements Polyhedra {
     return out;
   }
   
->>>>>>> 05b943ee6a9d93137a74be86760b3bb4125a0ae1
+
   Prism () {
     bSN = 4;
     cirCumRad = 50;
