@@ -36,10 +36,13 @@ Make/Place a Polyhedra:
 Authors:
   
   Benedict Bolton -- (GUI, Polyhedra generation and collision)
+  
   Corrin Offenholley -- (Camera, Saving and Loading created worlds to textfiles)
   
   
+  
 Known Bugs and Issues:
+
   -- Collision detection mathematics do always not work as intended and will allow you to phase through some parts of
 some polyhedra
 
