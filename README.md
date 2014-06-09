@@ -20,7 +20,7 @@ Movement through World:
   X == Move Down
   
   E == Rotate World Clockwise (Can throw off the Math of Polygon Placement and Collision)
-  R == Rotate World CountClockwise (")
+  Q == Rotate World CountClockwise (")
   
   Mouse -- Change Point of View (i.e. turn head to look around)
   
